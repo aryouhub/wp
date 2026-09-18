@@ -167,7 +167,7 @@ window.Farghar = (function(){
   const topicLabel = k => (topicByKey(k) || {}).label || k;
 
   /* ==========================================================================
-     4. APPLICATION STATE
+     4. APPLICATION STATE & PROGRESS SYSTEM
      ========================================================================== */
   const state = {
     q:'', sort:'path', view:'grid',
@@ -176,6 +176,216 @@ window.Farghar = (function(){
   };
   const DUR_MIN = 120, DUR_MAX = 2400;
   const durFromSlider = v => Math.round(DUR_MIN * Math.pow(DUR_MAX/DUR_MIN, v/100));
+  
+  /* Progress System: Track completion of lessons and courses */
+  const ProgressSystem = (function(){
+    const STORAGE_KEY = 'farghar_wp_academy_progress';
+    const BADGES_KEY = 'farghar_wp_academy_badges';
+    
+    function loadProgress(){
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch(e) { return {}; }
+    }
+    
+    function saveProgress(data){
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e){}
+    }
+    
+    function loadBadges(){
+      try {
+        return JSON.parse(localStorage.getItem(BADGES_KEY)) || [];
+      } catch(e) { return []; }
+    }
+    
+    function saveBadges(data){
+      try { localStorage.setItem(BADGES_KEY, JSON.stringify(data)); } catch(e){}
+    }
+    
+    function getCourseProgress(courseId){
+      const progress = loadProgress();
+      return progress[courseId] || { completedLessons: [], completedAt: null };
+    }
+    
+    function setLessonCompleted(courseId, lessonIndex){
+      const progress = loadProgress();
+      if (!progress[courseId]) {
+        progress[courseId] = { completedLessons: [], completedAt: null };
+      }
+      if (!progress[courseId].completedLessons.includes(lessonIndex)) {
+        progress[courseId].completedLessons.push(lessonIndex);
+        progress[courseId].completedLessons.sort((a,b) => a-b);
+        
+        // Check if course is complete
+        const course = COURSES.find(c => c.id === courseId);
+        if (course && progress[courseId].completedLessons.length >= course.lessons.length) {
+          progress[courseId].completedAt = new Date().toISOString();
+        }
+        
+        saveProgress(progress);
+        updateLevelProgress();
+        checkLevelBadges();
+        return true;
+      }
+      return false;
+    }
+    
+    function toggleLessonCompleted(courseId, lessonIndex){
+      const progress = loadProgress();
+      if (!progress[courseId]) {
+        progress[courseId] = { completedLessons: [], completedAt: null };
+      }
+      const idx = progress[courseId].completedLessons.indexOf(lessonIndex);
+      if (idx > -1) {
+        progress[courseId].completedLessons.splice(idx, 1);
+        progress[courseId].completedAt = null;
+      } else {
+        progress[courseId].completedLessons.push(lessonIndex);
+        progress[courseId].completedLessons.sort((a,b) => a-b);
+        
+        const course = COURSES.find(c => c.id === courseId);
+        if (course && progress[courseId].completedLessons.length >= course.lessons.length) {
+          progress[courseId].completedAt = new Date().toISOString();
+        }
+      }
+      saveProgress(progress);
+      updateLevelProgress();
+      checkLevelBadges();
+      return !progress[courseId].completedLessons.includes(lessonIndex);
+    }
+    
+    function getCourseCompletionPercentage(courseId){
+      const course = COURSES.find(c => c.id === courseId);
+      if (!course) return 0;
+      const progress = getCourseProgress(courseId);
+      return Math.round((progress.completedLessons.length / course.lessons.length) * 100);
+    }
+    
+    function getLevelProgress(levelKey){
+      const coursesInLevel = COURSES.filter(c => c.level === levelKey);
+      let totalLessons = 0, completedLessons = 0;
+      let completedCourses = 0;
+      
+      coursesInLevel.forEach(course => {
+        totalLessons += course.lessons.length;
+        const progress = getCourseProgress(course.id);
+        completedLessons += progress.completedLessons.length;
+        if (progress.completedAt) completedCourses++;
+      });
+      
+      return {
+        percentage: totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0,
+        completedCourses,
+        totalCourses: coursesInLevel.length,
+        completedLessons,
+        totalLessons
+      };
+    }
+    
+    function updateLevelProgress(){
+      LEVELS.forEach(level => {
+        const lp = getLevelProgress(level.key);
+        const el = document.getElementById('level-progress-'+level.key);
+        if (el) {
+          el.style.width = lp.percentage + '%';
+          el.setAttribute('aria-valuenow', lp.percentage);
+        }
+        const pctEl = document.getElementById('level-pct-'+level.key);
+        if (pctEl) pctEl.textContent = fa(lp.percentage) + '%';
+      });
+    }
+    
+    function isLevelUnlocked(levelIndex){
+      if (levelIndex === 0) return true;
+      for (let i = 0; i < levelIndex; i++) {
+        const level = LEVELS[i];
+        const lp = getLevelProgress(level.key);
+        if (lp.percentage < 100) return false;
+      }
+      return true;
+    }
+    
+    function awardBadge(badgeId){
+      const badges = loadBadges();
+      if (!badges.includes(badgeId)) {
+        badges.push(badgeId);
+        saveBadges(badges);
+        showToast('🏆 نشان جدید کسب شد!', 'success');
+        return true;
+      }
+      return false;
+    }
+    
+    function checkLevelBadges(){
+      LEVELS.forEach((level, idx) => {
+        const lp = getLevelProgress(level.key);
+        if (lp.percentage >= 100) {
+          awardBadge('level-'+level.key);
+        }
+      });
+      
+      const allProgress = loadProgress();
+      const allComplete = COURSES.every(c => {
+        const p = allProgress[c.id];
+        return p && p.completedAt;
+      });
+      if (allComplete) {
+        awardBadge('master-all');
+      }
+    }
+    
+    function hasBadge(badgeId){
+      return loadBadges().includes(badgeId);
+    }
+    
+    function resetProgress(){
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(BADGES_KEY);
+      location.reload();
+    }
+    
+    function getStats(){
+      const progress = loadProgress();
+      const badges = loadBadges();
+      let totalCompleted = 0, totalLessons = 0;
+      
+      COURSES.forEach(course => {
+        totalLessons += course.lessons.length;
+        const p = progress[course.id];
+        if (p) totalCompleted += p.completedLessons.length;
+      });
+      
+      const completedCourses = COURSES.filter(c => {
+        const p = progress[c.id];
+        return p && p.completedAt;
+      }).length;
+      
+      return {
+        completedLessons: totalCompleted,
+        totalLessons,
+        completedCourses,
+        totalCourses: COURSES.length,
+        badgesEarned: badges.length,
+        totalBadges: LEVELS.length + 1,
+        overallPercentage: Math.round((totalCompleted / totalLessons) * 100)
+      };
+    }
+    
+    return {
+      getCourseProgress,
+      setLessonCompleted,
+      toggleLessonCompleted,
+      getCourseCompletionPercentage,
+      getLevelProgress,
+      updateLevelProgress,
+      isLevelUnlocked,
+      awardBadge,
+      hasBadge,
+      resetProgress,
+      getStats,
+      checkLevelBadges
+    };
+  })();
 
   const grid = $('fargharGrid'), shownCount = $('fargharShownCount'), totalPill = $('fargharTotalPill');
   const CHECK_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
@@ -552,10 +762,47 @@ window.Farghar = (function(){
     icon.textContent = lvl.num || '?';
     $('fargharModalTitle').textContent = course.title;
     $('fargharModalMeta').textContent = (lvl.label || '') + ' — ' + fa(course.lessons.length) + ' درس • ' + fmtDur(course.minutes);
-    $('fargharModalLessons').innerHTML = course.lessons.map((l, i) =>
-      '<div class="farghar-lesson"><span class="farghar-num" style="background:'+(lvl.color||'var(--farghar-accent)')+'">'+fa(i+1)+'</span><span class="farghar-lesson-title">'+l+'</span></div>'
-    ).join('');
-    $('fargharModalStart').onclick = () => { closeModal(); showToast('دوره «'+course.title+'» به‌زودی باز می‌شود'); };
+    
+    // Get progress for this course
+    const progress = ProgressSystem.getCourseProgress(course.id);
+    const pct = ProgressSystem.getCourseCompletionPercentage(course.id);
+    
+    $('fargharModalLessons').innerHTML = course.lessons.map((l, i) => {
+      const isCompleted = progress.completedLessons.includes(i);
+      return '<div class="farghar-lesson'+(isCompleted ? ' completed' : '')+'" data-lesson="'+i+'">' +
+        '<button class="farghar-lesson-check" aria-label="تکمیل درس '+fa(i+1)+'" data-course="'+course.id+'" data-index="'+i+'">' +
+          (isCompleted ? CHECK_SM : '') +
+        '</button>' +
+        '<span class="farghar-num" style="background:'+(lvl.color||'var(--farghar-accent)')+'">'+fa(i+1)+'</span>' +
+        '<span class="farghar-lesson-title">'+l+'</span>' +
+      '</div>';
+    }).join('');
+    
+    // Add click handlers to lesson checkboxes
+    $('fargharModalLessons').querySelectorAll('.farghar-lesson-check').forEach(btn => {
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        const courseId = this.dataset.course;
+        const lessonIdx = parseInt(this.dataset.index);
+        const isNowCompleted = ProgressSystem.toggleLessonCompleted(courseId, lessonIdx);
+        
+        this.innerHTML = isNowCompleted ? CHECK_SM : '';
+        this.closest('.farghar-lesson').classList.toggle('completed', isNowCompleted);
+        
+        // Update overall progress display
+        const newPct = ProgressSystem.getCourseCompletionPercentage(courseId);
+        showToast(isNowCompleted ? '✅ درس تکمیل شد!' : '⏸ تکمیل درس لغو شد', isNowCompleted ? 'success' : 'info');
+      });
+    });
+    
+    $('fargharModalStart').onclick = () => { 
+      closeModal(); 
+      if (progress.completedLessons.length > 0) {
+        showToast('ادامه دوره «'+course.title+'» — '+fa(pct)+'٪ تکمیل شده', 'success');
+      } else {
+        showToast('دوره «'+course.title+'» به‌زودی باز می‌شود'); 
+      }
+    };
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
     /* Focus the close button for D-pad navigation. */
@@ -600,12 +847,15 @@ window.Farghar = (function(){
   });
 
   let toastTimer;
-  function showToast(msg){
+  function showToast(msg, type='info'){
     const toast = $('fargharToast');
     toast.textContent = msg;
-    toast.classList.add('show');
+    toast.className = 'show';
+    if (type) toast.classList.add('toast-'+type);
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show', 'toast-info', 'toast-success', 'toast-warning', 'toast-error');
+    }, 2200);
   }
 
   /* ==========================================================================
@@ -800,20 +1050,26 @@ window.Farghar = (function(){
   });
 
   /* ==========================================================================
-     15. INITIALIZATION
+     15. INITIALIZATION & PROGRESS TRACKING
      ========================================================================== */
   const durLabel = $('fargharDurLabel');
   if (durLabel) durLabel.textContent = 'همه';
+  
+  // Initialize progress tracking on load
+  ProgressSystem.updateLevelProgress();
+  ProgressSystem.checkLevelBadges();
+  
   render();
 
   /* Public API. */
   return {
-    version: '4.2.0',
+    version: '4.3.0',
     author: 'Farghar',
     copyright: 'Copyright (c) Farghar - All Rights Reserved.',
     philosophy: 'سرعت حرکت، ارزشمندتر از زمان است.',
     device: FargharDevice,
     data: { LEVELS, TOPICS, COURSES },
+    progress: ProgressSystem,
     render, showToast, openModal
   };
 })();
