@@ -2,8 +2,8 @@
 # Farghar WordPress Academy - GitHub Pages Auto-Deploy
 # Copyright (c) Farghar - All Rights Reserved.
 # ----------------------------------------------------------------------------
-# This workflow builds an `index.html` copy from the main `wp 6.html` file
-# and publishes the project to GitHub Pages on every push to `main`.
+# This workflow publishes the static site to GitHub Pages on every push
+# to the `main` branch. The main application entry point is `index.html`.
 # ============================================================================
 
 name: Deploy to GitHub Pages
@@ -32,9 +32,6 @@ jobs:
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
-
-      - name: Create index.html from main application file
-        run: cp "wp 6.html" index.html
 
       - name: Verify index.html exists and is not empty
         run: test -s index.html
