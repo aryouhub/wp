@@ -1,0 +1,733 @@
+/* ============================================================================
+   Farghar WordPress Academy - Stylesheet
+   Copyright (c) Farghar - All Rights Reserved.
+   ----------------------------------------------------------------------------
+   Table of contents:
+     1.  Reset and CSS variables
+     2.  Base typography and elements
+     3.  Promo bar
+     4.  Site header
+     5.  Hero section
+     6.  Clock section
+     7.  Clock dial
+     8.  Mobile clock list
+     9.  Market bar
+     10. Layout grid
+     11. Sidebar and filters
+     12. Results head
+     13. Course cards
+     14. Empty state and toast
+     15. Modal
+     16. Footer
+     17. Back to top button
+     18. Responsive tablet (max-width 1040px)
+     19. Responsive phone (max-width 560px)
+     20. KaiOS and Jio Phone 2 (max-width 320px)
+     21. Very small phones (max-width 240px)
+     22. Smartwatch square (aspect ratio 4:5 to 5:4)
+     23. Smartwatch wide (aspect ratio 5:4 to 21:9)
+     24. Reduced motion preference
+     25. Backdrop filter fallback
+     26. Forced colors accessibility
+     27. Low power and D-pad modes
+   ============================================================================ */
+
+/* ============================================================================
+   1. RESET AND CSS VARIABLES
+   ============================================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --farghar-bg:#fafafa;
+  --farghar-surface:#fff;
+  --farghar-surface-2:#f4f4f5;
+  --farghar-border:#e9e9ec;
+  --farghar-border-2:#d8d8dd;
+  --farghar-border-3:#c4c4cb;
+  --farghar-text:#171717;
+  --farghar-text-2:#55555c;
+  --farghar-text-3:#8a8a92;
+  --farghar-text-4:#b4b4bb;
+  --farghar-accent:#3858e9;
+  --farghar-accent-dark:#2a45c4;
+  --farghar-accent-soft:#eef1ff;
+  --farghar-green:#0f8a44;
+  --farghar-green-bg:#e7f6ec;
+  --farghar-orange:#a15c00;
+  --farghar-orange-bg:#fff3e0;
+  --farghar-shadow-sm:0 1px 2px rgba(0,0,0,.05);
+  --farghar-shadow-md:0 8px 24px rgba(0,0,0,.08),0 1px 3px rgba(0,0,0,.04);
+  --farghar-shadow-lg:0 18px 44px rgba(0,0,0,.14);
+  --farghar-r-sm:8px;
+  --farghar-r-md:12px;
+  --farghar-r-lg:16px;
+  --farghar-r-full:999px;
+  --farghar-sidebar-w:252px;
+  --farghar-max-w:1280px;
+  --farghar-header-h:64px;
+}
+
+/* ============================================================================
+   2. BASE TYPOGRAPHY AND ELEMENTS
+   ============================================================================ */
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:Vazirmatn,-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif;background:var(--farghar-bg);color:var(--farghar-text);font-size:14px;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+svg{display:block;flex:none}
+::selection{background:rgba(56,88,233,.18)}
+:focus-visible{outline:2px solid var(--farghar-accent);outline-offset:2px}
+.farghar-dpad-mode :focus{outline:2px solid var(--farghar-accent);outline-offset:2px;box-shadow:0 0 0 4px rgba(56,88,233,.15)}
+
+/* ============================================================================
+   3. PROMO BAR
+   ============================================================================ */
+.farghar-promo{background:var(--farghar-accent-soft);color:#1f2f8f;font-size:13px;padding:9px 44px;display:flex;align-items:center;justify-content:center;gap:10px;position:relative;flex-wrap:wrap}
+.farghar-promo.hidden{display:none}
+.farghar-promo-ico{width:16px;height:16px;color:var(--farghar-accent)}
+.farghar-promo b{font-weight:700}
+.farghar-promo a{color:var(--farghar-accent);display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.farghar-promo a:hover{text-decoration:underline}
+.farghar-promo a svg{width:13px;height:13px}
+.farghar-promo-close{position:absolute;inset-inline-end:14px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1f2f8f}
+.farghar-promo-close:hover{background:rgba(56,88,233,.12)}
+.farghar-promo-close svg{width:14px;height:14px}
+
+/* ============================================================================
+   4. SITE HEADER
+   ============================================================================ */
+.farghar-site-header{background:#fafafa;border-bottom:1px solid var(--farghar-border);position:sticky;top:0;z-index:50}
+@supports (backdrop-filter: blur(12px)){.farghar-site-header{background:rgba(250,250,250,.88);backdrop-filter:blur(12px)}}
+.farghar-header-inner{max-width:var(--farghar-max-w);margin:0 auto;padding:0 24px;height:var(--farghar-header-h);display:flex;align-items:center;gap:26px}
+.farghar-logo{display:inline-flex;align-items:center;gap:9px;font-size:17px;font-weight:800;flex:none}
+.farghar-logo-mark{width:28px;height:28px;border-radius:50%;background:var(--farghar-accent);display:flex;align-items:center;justify-content:center;color:#fff}
+.farghar-logo-mark svg{width:18px;height:18px}
+.farghar-nav{display:flex;align-items:center;gap:2px;flex:1}
+.farghar-nav a{font-size:13.5px;font-weight:500;padding:8px 13px;border-radius:var(--farghar-r-sm);color:var(--farghar-text-2)}
+.farghar-nav a:hover{color:var(--farghar-text);background:var(--farghar-surface-2)}
+.farghar-nav a.active{color:var(--farghar-accent);font-weight:700;background:var(--farghar-accent-soft)}
+.farghar-header-actions{display:flex;align-items:center;gap:10px;flex:none}
+.farghar-btn-dark{background:#171717;color:#fff;font-size:13px;font-weight:600;padding:9px 18px;border-radius:var(--farghar-r-full)}
+.farghar-btn-dark:hover{background:#333}
+.farghar-mobile-menu-btn{display:none;width:38px;height:38px;align-items:center;justify-content:center;border-radius:var(--farghar-r-sm)}
+.farghar-mobile-menu-btn:hover{background:var(--farghar-surface-2)}
+
+/* ============================================================================
+   5. HERO SECTION
+   ============================================================================ */
+.farghar-hero{max-width:var(--farghar-max-w);margin:0 auto;padding:44px 24px 8px;text-align:center}
+.farghar-hero h1{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.farghar-hero h1 .farghar-hl{color:var(--farghar-accent)}
+@supports (-webkit-background-clip: text){.farghar-hero h1 .farghar-hl{background:linear-gradient(120deg,#3858e9,#7c5cff 55%,#b18cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}}
+.farghar-hero p{font-size:15.5px;color:var(--farghar-text-2);max-width:680px;margin:0 auto}
+.farghar-hero-stats{display:flex;gap:32px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.farghar-hero-stat{display:flex;flex-direction:column;gap:2px;align-items:center}
+.farghar-hero-stat b{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.farghar-hero-stat span{font-size:11.5px;color:var(--farghar-text-3)}
+
+/* ============================================================================
+   6. CLOCK SECTION
+   ============================================================================ */
+.farghar-clock-section{max-width:var(--farghar-max-w);margin:0 auto;padding:30px 24px 60px;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.farghar-philosophy{display:flex;flex-direction:column;gap:18px;padding-inline-end:8px}
+.farghar-philosophy-badge{display:inline-flex;align-items:center;gap:8px;width:fit-content;padding:6px 14px;border-radius:var(--farghar-r-full);background:var(--farghar-accent-soft);color:var(--farghar-accent);font-size:12px;font-weight:700}
+.farghar-philosophy-badge svg{width:15px;height:15px}
+.farghar-philosophy h2{font-size:32px;font-weight:800;letter-spacing:-.025em;line-height:1.3}
+.farghar-philosophy h2 em{font-style:normal;color:var(--farghar-accent)}
+.farghar-philosophy p{font-size:14.5px;color:var(--farghar-text-2);line-height:2}
+.farghar-philosophy-list{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.farghar-philosophy-item{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--farghar-text-2)}
+.farghar-philosophy-item .farghar-ph-check{width:20px;height:20px;border-radius:50%;background:var(--farghar-green-bg);color:var(--farghar-green);display:flex;align-items:center;justify-content:center;flex:none;margin-top:2px}
+.farghar-philosophy-item .farghar-ph-check svg{width:11px;height:11px}
+.farghar-philosophy-item b{color:var(--farghar-text);font-weight:700}
+
+/* ============================================================================
+   7. CLOCK DIAL
+   ============================================================================ */
+.farghar-clock-container{display:flex;justify-content:center;align-items:center}
+.farghar-clock{--farghar-clock-size:clamp(280px, 44vw, 520px);--farghar-clock-radius:calc(var(--farghar-clock-size) / 2 - 40px);position:relative;width:var(--farghar-clock-size);height:var(--farghar-clock-size);border-radius:50%;background:var(--farghar-surface);border:1px solid var(--farghar-border);box-shadow:var(--farghar-shadow-md),inset 0 0 0 8px var(--farghar-surface),inset 0 0 0 9px var(--farghar-border);display:flex;align-items:center;justify-content:center;isolation:isolate}
+.farghar-clock::before{content:"";position:absolute;inset:12%;border-radius:50%;border:1px dashed var(--farghar-border-2);opacity:.5;pointer-events:none}
+.farghar-clock::after{content:"";position:absolute;inset:24%;border-radius:50%;border:1px solid var(--farghar-border);opacity:.4;pointer-events:none}
+.farghar-clock-center{position:absolute;inset:32%;border-radius:50%;background:var(--farghar-surface);box-shadow:0 4px 14px rgba(0,0,0,.06),0 0 0 1px var(--farghar-border);display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;z-index:2}
+.farghar-clock-center-inner{transition:opacity .22s ease}
+.farghar-clock-center[data-state="info"] .farghar-clock-philosophy-content{opacity:0;pointer-events:none;position:absolute;inset:0;padding:14px;display:flex;align-items:center;justify-content:center}
+.farghar-clock-info-content{opacity:0;pointer-events:none;position:absolute;inset:0;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:opacity .22s ease}
+.farghar-clock-center[data-state="info"] .farghar-clock-info-content{opacity:1;pointer-events:auto}
+.farghar-clock-philosophy-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:opacity .22s ease}
+.farghar-clock-slogan{font-size:12.5px;font-weight:700;color:var(--farghar-text);line-height:1.5}
+.farghar-clock-slogan em{font-style:normal;color:var(--farghar-accent)}
+.farghar-clock-icon{width:26px;height:26px;color:var(--farghar-accent);animation:farghar-tick 3s linear infinite}
+@keyframes farghar-tick{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.farghar-clock-info-num{font-size:12px;font-weight:800;color:var(--farghar-accent);letter-spacing:.05em}
+.farghar-clock-info-title{font-size:13px;font-weight:800;color:var(--farghar-text);line-height:1.4}
+.farghar-clock-info-meta{font-size:10.5px;color:var(--farghar-text-3)}
+.farghar-clock-hand{position:absolute;left:50%;top:50%;width:3px;height:calc(var(--farghar-clock-size) / 2 - 32%);background:linear-gradient(to top,var(--farghar-accent),rgba(56,88,233,.15));transform-origin:50% 100%;border-radius:2px;pointer-events:none;z-index:1;transform:translate(-50%,-100%) rotate(0deg);transition:transform .55s cubic-bezier(.34,1.4,.64,1)}
+.farghar-clock-hand::after{content:"";position:absolute;top:-5px;left:50%;width:11px;height:11px;background:var(--farghar-accent);border-radius:50%;transform:translateX(-50%);box-shadow:0 0 0 3px rgba(56,88,233,.18)}
+.farghar-clock-hour{position:absolute;top:50%;left:50%;width:52px;height:52px;transform:translate(-50%,-50%) rotate(var(--farghar-clock-angle,0deg)) translateY(calc(var(--farghar-clock-radius) * -1)) rotate(calc(var(--farghar-clock-angle,0deg) * -1));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:50%;background:var(--farghar-surface);border:1.5px solid var(--farghar-border-2);color:var(--farghar-text);cursor:pointer;z-index:3;transition:box-shadow .2s, border-color .2s, background .2s}
+.farghar-clock-hour:hover,.farghar-clock-hour:focus-visible{border-color:var(--farghar-clock-color,var(--farghar-accent));background:var(--farghar-surface);box-shadow:0 0 0 4px rgba(56,88,233,.15),0 8px 20px rgba(0,0,0,.08);z-index:5}
+.farghar-clock-hour.active{border-color:var(--farghar-clock-color,var(--farghar-accent));box-shadow:0 0 0 5px rgba(56,88,233,.2)}
+.farghar-clock-num{font-size:13px;font-weight:800;color:var(--farghar-text);line-height:1}
+.farghar-clock-dot{width:5px;height:5px;border-radius:50%;background:var(--farghar-clock-color,var(--farghar-accent))}
+
+/* ============================================================================
+   8. MOBILE CLOCK LIST
+   ============================================================================ */
+.farghar-clock-mobile-list{display:none;max-width:var(--farghar-max-w);margin:16px auto 0;padding:0 20px}
+.farghar-clock-mobile-list-inner{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.farghar-clock-mobile-item{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--farghar-surface);border:1px solid var(--farghar-border);border-radius:var(--farghar-r-md);font-size:12px;text-align:start;cursor:pointer}
+.farghar-clock-mobile-item:hover,.farghar-clock-mobile-item:focus{border-color:var(--farghar-border-2);background:var(--farghar-surface-2)}
+.farghar-clock-mobile-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex:none}
+.farghar-clock-mobile-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+
+/* ============================================================================
+   9. MARKET BAR
+   ============================================================================ */
+.farghar-market-bar{position:sticky;top:var(--farghar-header-h);z-index:40;background:#fafafa;padding:22px 0 14px;border-bottom:1px solid transparent;transition:box-shadow .2s,border-color .2s}
+@supports (backdrop-filter: blur(10px)){.farghar-market-bar{background:rgba(250,250,250,.95);backdrop-filter:blur(10px)}}
+.farghar-market-bar.stuck{box-shadow:0 8px 18px -14px rgba(0,0,0,.35);border-bottom-color:var(--farghar-border)}
+.farghar-market-bar-inner{max-width:var(--farghar-max-w);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:var(--farghar-sidebar-w) 1fr;gap:24px;align-items:center}
+.farghar-market-left{display:flex;align-items:center;gap:10px}
+.farghar-market-left h2{font-size:21px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.farghar-count-pill{background:#ededf0;color:var(--farghar-text-2);font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:var(--farghar-r-full)}
+.farghar-market-right{display:flex;align-items:center;gap:10px;justify-content:flex-end;min-width:0}
+.farghar-search{display:flex;align-items:center;gap:8px;height:42px;padding:0 14px;background:var(--farghar-surface);border:1px solid var(--farghar-border);border-radius:var(--farghar-r-full);flex:1 1 auto;max-width:420px;min-width:0}
+.farghar-search:focus-within{border-color:var(--farghar-accent);box-shadow:0 0 0 3px rgba(56,88,233,.12)}
+.farghar-search-ico{color:var(--farghar-text-3);width:16px;height:16px}
+.farghar-search input{border:0;outline:0;background:transparent;width:100%;min-width:0;font-size:13.5px}
+.farghar-search input::placeholder{color:var(--farghar-text-4)}
+.farghar-search .farghar-clear{display:none;color:var(--farghar-text-3);padding:3px;border-radius:6px}
+.farghar-search .farghar-clear:hover{color:var(--farghar-text);background:var(--farghar-surface-2)}
+.farghar-search.has-value .farghar-clear{display:block}
+.farghar-sort-wrap{position:relative;min-width:172px;flex:none}
+.farghar-sort-trigger{width:100%;height:42px;padding:0 14px;display:inline-flex;align-items:center;justify-content:space-between;gap:8px;background:var(--farghar-surface);border:1px solid var(--farghar-border);border-radius:var(--farghar-r-full);font-size:13px;font-weight:600;cursor:pointer}
+.farghar-sort-trigger:hover{border-color:var(--farghar-border-2)}
+.farghar-sort-trigger[data-state="open"]{border-color:var(--farghar-accent);box-shadow:0 0 0 3px rgba(56,88,233,.12)}
+.farghar-sort-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.farghar-sort-chev{color:var(--farghar-text-2);transition:transform .2s}
+.farghar-sort-chev svg{width:15px;height:15px}
+.farghar-sort-trigger[data-state="open"] .farghar-sort-chev{transform:rotate(180deg)}
+.farghar-sort-menu{position:absolute;top:calc(100% + 6px);inset-inline:0;background:var(--farghar-surface);border:1px solid var(--farghar-border);border-radius:var(--farghar-r-md);box-shadow:var(--farghar-shadow-lg);padding:5px;z-index:80;opacity:0;transform:translateY(-4px) scale(.985);pointer-events:none;transition:opacity .14s,transform .14s}
+.farghar-sort-menu[data-state="open"]{opacity:1;transform:none;pointer-events:auto}
+.farghar-sort-option{display:flex;align-items:center;gap:8px;width:100%;padding:9px 11px;font-size:13px;font-weight:500;color:var(--farghar-text-2);border-radius:var(--farghar-r-sm);text-align:start;white-space:nowrap}
+.farghar-sort-option:hover{background:var(--farghar-surface-2);color:var(--farghar-text)}
+.farghar-opt-check{width:14px;height:14px;color:var(--farghar-accent);opacity:0;transition:opacity .12s}
+.farghar-opt-check svg{width:14px;height:14px}
+.farghar-sort-option[aria-selected="true"]{color:var(--farghar-text);background:#f5f5f7}
+.farghar-sort-option[aria-selected="true"] .farghar-opt-check{opacity:1}
+.farghar-view-toggle{display:inline-flex;align-items:center;gap:2px;padding:3px;background:#ededf0;border-radius:var(--farghar-r-full);height:42px;flex:none}
+.farghar-view-toggle button{width:36px;height:36px;border-radius:var(--farghar-r-full);display:flex;align-items:center;justify-content:center;color:var(--farghar-text-3)}
+.farghar-view-toggle button.on{background:var(--farghar-surface);color:var(--farghar-text);box-shadow:var(--farghar-shadow-sm)}
+.farghar-view-toggle svg{width:16px;height:16px}
+.farghar-filter-toggle{display:none;align-items:center;gap:6px;height:42px;padding:0 15px;border-radius:var(--farghar-r-full);border:1px solid var(--farghar-border-2);background:var(--farghar-surface);font-size:13px;font-weight:600;flex:none}
+.farghar-filter-toggle svg{width:15px;height:15px}
+
+/* ============================================================================
+   10. LAYOUT GRID
+   ============================================================================ */
+.farghar-layout{max-width:var(--farghar-max-w);margin:0 auto;padding:24px 24px 80px;display:grid;grid-template-columns:var(--farghar-sidebar-w) minmax(0,1fr);gap:28px;align-items:start}
+
+/* ============================================================================
+   11. SIDEBAR AND FILTERS
+   ============================================================================ */
+.farghar-sidebar{position:sticky;top:calc(var(--farghar-header-h) + 78px);max-height:calc(100vh - var(--farghar-header-h) - 110px);overflow-y:auto;padding-bottom:20px;scrollbar-width:thin}
+.farghar-sidebar::-webkit-scrollbar{width:6px}
+.farghar-sidebar::-webkit-scrollbar-thumb{background:#dcdce0;border-radius:3px}
+.farghar-fsec{border-bottom:1px solid var(--farghar-border)}
+.farghar-fsec:last-of-type{border-bottom:0}
+.farghar-fhead{width:100%;display:flex;align-items:center;gap:9px;padding:12px 8px;text-align:start;border-radius:var(--farghar-r-sm)}
+.farghar-fhead:hover{background:var(--farghar-surface-2)}
+.farghar-ficon{width:16px;height:16px;color:var(--farghar-text);flex:none}
+.farghar-flabel{flex:1;font-size:13.5px;font-weight:700}
+.farghar-fhead .farghar-chev{width:13px;height:13px;color:var(--farghar-text-3);transition:transform .22s}
+.farghar-fsec.open .farghar-fhead .farghar-chev{transform:rotate(180deg)}
+.farghar-fbody{overflow:hidden;max-height:0;opacity:0;transition:max-height .28s ease,opacity .2s ease,padding .28s ease;padding:0}
+.farghar-fsec.open .farghar-fbody{max-height:1400px;opacity:1;padding:2px 0 14px}
+.farghar-frow{display:flex;align-items:center;gap:9px;width:100%;padding:7px 8px;font-size:12.5px;color:var(--farghar-text-2);text-align:start;border-radius:var(--farghar-r-sm)}
+.farghar-frow:hover{color:var(--farghar-text);background:var(--farghar-surface-2)}
+.farghar-ricon{width:14px;height:14px;color:var(--farghar-text-3);flex:none;border-radius:50%}
+.farghar-rlabel{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.farghar-rtick{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--farghar-border-3);display:flex;align-items:center;justify-content:center;flex:none;transition:background .14s,border-color .14s}
+.farghar-rtick svg{width:9px;height:9px;color:#fff;opacity:0;transition:opacity .12s}
+.farghar-frow.on{color:var(--farghar-text);font-weight:600}
+.farghar-frow.on .farghar-rtick{background:var(--farghar-accent);border-color:var(--farghar-accent)}
+.farghar-frow.on .farghar-rtick svg{opacity:1}
+.farghar-crow{display:flex;align-items:center;gap:9px;padding:8px;font-size:12.5px;color:var(--farghar-text-2);cursor:pointer;border-radius:var(--farghar-r-sm);user-select:none}
+.farghar-crow:hover{background:var(--farghar-surface-2);color:var(--farghar-text)}
+.farghar-cbox{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--farghar-border-3);display:flex;align-items:center;justify-content:center;flex:none;transition:background .14s,border-color .14s}
+.farghar-cbox svg{width:9px;height:9px;color:#fff;opacity:0;transition:opacity .12s}
+.farghar-crow.on .farghar-cbox{background:var(--farghar-accent);border-color:var(--farghar-accent)}
+.farghar-crow.on .farghar-cbox svg{opacity:1}
+.farghar-slider-block{padding:8px 10px 4px}
+.farghar-slider-vals{display:flex;justify-content:space-between;font-size:11.5px;color:var(--farghar-text-3);margin-bottom:10px}
+.farghar-slider-vals b{color:var(--farghar-text);font-weight:700}
+.farghar-slider-block input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:2px;background:#e3e3e8;outline:none;cursor:pointer}
+.farghar-slider-block input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:15px;height:15px;border-radius:50%;background:#fff;border:2px solid var(--farghar-accent);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.farghar-slider-block input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:#fff;border:2px solid var(--farghar-accent);cursor:pointer}
+.farghar-reset-btn{width:100%;margin-top:14px;padding:10px;font-size:12.5px;font-weight:600;color:var(--farghar-text-2);border:1px solid var(--farghar-border-2);border-radius:var(--farghar-r-md);background:var(--farghar-surface)}
+.farghar-reset-btn:hover{border-color:var(--farghar-border-3);color:var(--farghar-text);background:var(--farghar-surface-2)}
+
+/* ============================================================================
+   12. RESULTS HEAD
+   ============================================================================ */
+.farghar-results-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;min-height:22px}
+.farghar-results-count{font-size:13px;color:var(--farghar-text-3)}
+.farghar-results-count b{color:var(--farghar-text);font-weight:700}
+.farghar-clear-all{font-size:12.5px;color:var(--farghar-accent);font-weight:600;display:none}
+.farghar-clear-all:hover{text-decoration:underline}
+.farghar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.farghar-grid.list{grid-template-columns:1fr;gap:12px}
+
+/* ============================================================================
+   13. COURSE CARDS
+   ============================================================================ */
+.farghar-card{background:var(--farghar-surface);border:1px solid var(--farghar-border);border-radius:var(--farghar-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;min-width:0;position:relative;overflow:hidden}
+.farghar-card::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:var(--farghar-card-color,transparent)}
+.farghar-card:hover{transform:translateY(-3px);box-shadow:var(--farghar-shadow-md);border-color:var(--farghar-border-2)}
+.farghar-card-top{display:flex;align-items:flex-start;gap:10px;min-width:0}
+.farghar-pico{width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px}
+.farghar-card-titlewrap{min-width:0;flex:1}
+.farghar-card-title{font-size:14.5px;font-weight:700;line-height:1.55;color:var(--farghar-text);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.farghar-card:hover .farghar-card-title{color:var(--farghar-accent)}
+.farghar-card-meta{display:block;font-size:11.5px;color:var(--farghar-text-3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.farghar-badge{display:inline-flex;align-items:center;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:var(--farghar-r-sm);white-space:nowrap;flex:none}
+.farghar-badge-free{color:var(--farghar-green);background:var(--farghar-green-bg)}
+.farghar-badge-sale{color:var(--farghar-orange);background:var(--farghar-orange-bg)}
+.farghar-badge-level{font-size:10px;font-weight:700;padding:3px 8px;border-radius:var(--farghar-r-full);color:#fff;white-space:nowrap;flex:none}
+.farghar-card-desc{font-size:12.5px;line-height:1.9;color:var(--farghar-text-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:47px}
+.farghar-tags{display:flex;flex-wrap:wrap;gap:6px}
+.farghar-tag{font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:var(--farghar-r-full);background:var(--farghar-surface-2);color:var(--farghar-text-2)}
+.farghar-card-foot{margin-top:auto;padding-top:13px;border-top:1px solid var(--farghar-border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.farghar-price{font-size:14px;font-weight:800;color:var(--farghar-text);white-space:nowrap}
+.farghar-price small{font-size:11px;font-weight:500;color:var(--farghar-text-3)}
+.farghar-price.free{color:var(--farghar-green)}
+.farghar-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 16px;border-radius:var(--farghar-r-full);font-size:12.5px;font-weight:600;white-space:nowrap;transition:background .15s,border-color .15s}
+.farghar-btn-primary{background:var(--farghar-accent);color:#fff}
+.farghar-btn-primary:hover{background:var(--farghar-accent-dark)}
+.farghar-btn-ghost{background:var(--farghar-surface);color:var(--farghar-text);border:1px solid var(--farghar-border-2)}
+.farghar-btn-ghost:hover{border-color:var(--farghar-border-3);background:var(--farghar-surface-2)}
+.farghar-grid.list .farghar-card{flex-direction:row;align-items:center;gap:20px;padding:16px 18px}
+.farghar-grid.list .farghar-card:hover{transform:none}
+.farghar-grid.list .farghar-card-top{flex:0 0 300px}
+.farghar-grid.list .farghar-card-desc{-webkit-line-clamp:2;min-height:0;flex:1;border-inline-start:1px solid var(--farghar-border);padding-inline-start:20px}
+.farghar-grid.list .farghar-tags{flex:0 0 auto;max-width:200px}
+.farghar-grid.list .farghar-card-foot{margin-top:0;padding-top:0;border-top:0;flex:0 0 auto;gap:16px}
+.farghar-grid.list .farghar-card-foot .farghar-btn-ghost{display:none}
+
+/* ============================================================================
+   14. EMPTY STATE AND TOAST
+   ============================================================================ */
+.farghar-empty{grid-column:1/-1;text-align:center;padding:90px 20px;color:var(--farghar-text-3)}
+.farghar-empty svg{width:38px;height:38px;margin:0 auto 14px;color:var(--farghar-text-4)}
+.farghar-empty p{font-size:15px;font-weight:600;color:var(--farghar-text-2)}
+.farghar-toast{position:fixed;bottom:26px;inset-inline-start:50%;transform:translateX(50%) translateY(14px);background:#171717;color:#fff;font-size:12.5px;padding:10px 18px;border-radius:var(--farghar-r-full);opacity:0;pointer-events:none;transition:all .25s;z-index:100;max-width:90vw;text-align:center}
+.farghar-toast.show{opacity:1;transform:translateX(50%) translateY(0)}
+
+/* ============================================================================
+   15. MODAL
+   ============================================================================ */
+.farghar-modal{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:20px}
+.farghar-modal.open{display:flex}
+.farghar-modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.5)}
+@supports (backdrop-filter: blur(4px)){.farghar-modal-bg{backdrop-filter:blur(4px)}}
+.farghar-modal-card{position:relative;background:var(--farghar-surface);border-radius:var(--farghar-r-lg);max-width:720px;width:100%;max-height:86vh;display:flex;flex-direction:column;box-shadow:var(--farghar-shadow-lg);overflow:hidden}
+.farghar-modal-head{padding:20px 22px;border-bottom:1px solid var(--farghar-border);display:flex;align-items:flex-start;gap:14px}
+.farghar-modal-head .farghar-pico{width:40px;height:40px;font-size:17px}
+.farghar-modal-title{flex:1;min-width:0}
+.farghar-modal-title h3{font-size:17px;font-weight:800;margin-bottom:3px}
+.farghar-modal-title p{font-size:12.5px;color:var(--farghar-text-3)}
+.farghar-modal-close{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--farghar-text-2);flex:none}
+.farghar-modal-close:hover{background:var(--farghar-surface-2);color:var(--farghar-text)}
+.farghar-modal-close svg{width:18px;height:18px}
+.farghar-modal-body{padding:18px 22px;overflow-y:auto}
+.farghar-modal-body h4{font-size:13px;font-weight:700;color:var(--farghar-text-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.farghar-lesson-list{display:grid;grid-template-columns:1fr;gap:6px}
+.farghar-lesson{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--farghar-surface-2);border-radius:var(--farghar-r-sm);font-size:13px}
+.farghar-lesson .farghar-num{width:24px;height:24px;border-radius:50%;background:var(--farghar-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex:none}
+.farghar-lesson-title{flex:1;color:var(--farghar-text)}
+.farghar-modal-foot{padding:16px 22px;border-top:1px solid var(--farghar-border);display:flex;justify-content:flex-end;gap:10px}
+
+/* ============================================================================
+   16. FOOTER
+   ============================================================================ */
+.farghar-site-footer{background:#0f0f0f;color:#a0a0a0;padding:60px 24px 40px;border-top:1px solid #262626}
+.farghar-footer-inner{max-width:var(--farghar-max-w);margin:0 auto;display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:44px}
+.farghar-footer-brand .farghar-brand-row{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800;color:#fff}
+.farghar-footer-brand .farghar-brand-mark{width:28px;height:28px;border-radius:50%;background:var(--farghar-accent);display:flex;align-items:center;justify-content:center;color:#fff}
+.farghar-footer-brand .farghar-brand-mark svg{width:18px;height:18px}
+.farghar-footer-brand p{font-size:13px;line-height:2;color:#8a8a8a;max-width:340px;margin-top:14px}
+.farghar-footer-social{display:flex;gap:8px;margin-top:18px}
+.farghar-footer-social a{width:36px;height:36px;border-radius:50%;background:#1e1e1e;display:flex;align-items:center;justify-content:center;color:#a0a0a0}
+.farghar-footer-social a:hover{background:#2c2c2c;color:#fff}
+.farghar-footer-social svg{width:17px;height:17px}
+.farghar-footer-col h3{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:16px}
+.farghar-footer-col a{display:block;font-size:13px;color:#a0a0a0;padding:6px 0}
+.farghar-footer-col a:hover{color:#fff}
+.farghar-footer-bottom{max-width:var(--farghar-max-w);margin:44px auto 0;padding-top:24px;border-top:1px solid #262626;font-size:12px;color:#6a6a6a;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+.farghar-footer-bottom .farghar-legal{display:flex;gap:20px;flex-wrap:wrap}
+.farghar-footer-bottom .farghar-legal a:hover{color:#a0a0a0}
+
+/* ============================================================================
+   17. BACK TO TOP BUTTON
+   ============================================================================ */
+.farghar-back-top{position:fixed;inset-inline-end:26px;bottom:26px;z-index:30;width:42px;height:42px;border-radius:50%;background:var(--farghar-surface);border:1px solid var(--farghar-border-2);display:flex;align-items:center;justify-content:center;box-shadow:var(--farghar-shadow-md);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .2s,transform .2s}
+.farghar-back-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.farghar-back-top svg{width:18px;height:18px}
+.farghar-scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:55;opacity:0;pointer-events:none;transition:opacity .25s}
+.farghar-scrim.show{opacity:1;pointer-events:auto}
+
+/* ============================================================================
+   18. RESPONSIVE TABLET (max-width 1040px)
+   ============================================================================ */
+@media (max-width:1040px){
+  .farghar-header-inner{padding:0 20px;gap:16px}
+  .farghar-nav{display:none}
+  .farghar-mobile-menu-btn{display:inline-flex}
+  .farghar-hero{padding:32px 20px 6px}
+  .farghar-hero h1{font-size:30px}
+  .farghar-clock-section{grid-template-columns:1fr;gap:30px;padding:24px 20px 50px}
+  .farghar-philosophy{text-align:center;padding-inline-end:0;align-items:center}
+  .farghar-philosophy-list{max-width:400px}
+  .farghar-philosophy-item{text-align:start}
+  .farghar-market-bar-inner{grid-template-columns:1fr;gap:12px}
+  .farghar-market-right{flex-wrap:wrap;justify-content:flex-start}
+  .farghar-search{max-width:none;flex:1 1 100%;order:-1}
+  .farghar-sort-wrap{flex:1 1 170px}
+  .farghar-filter-toggle{display:inline-flex}
+  .farghar-layout{grid-template-columns:1fr;padding:20px 20px 70px}
+  .farghar-sidebar{position:fixed;inset-block:0;inset-inline-start:0;width:310px;z-index:60;background:var(--farghar-surface);border-inline-end:1px solid var(--farghar-border);padding:22px 18px;max-height:none;transform:translateX(100%);transition:transform .26s ease;overflow-y:auto}
+  .farghar-sidebar.open{transform:translateX(0)}
+  .farghar-grid.list .farghar-card{flex-direction:column;align-items:stretch;gap:12px}
+  .farghar-grid.list .farghar-card-top{flex:1 1 auto}
+  .farghar-grid.list .farghar-card-desc{border-inline-start:0;padding-inline-start:0}
+  .farghar-grid.list .farghar-tags{max-width:none}
+  .farghar-grid.list .farghar-card-foot{justify-content:space-between}
+  .farghar-footer-inner{grid-template-columns:1fr 1fr;gap:36px}
+  .farghar-footer-brand{grid-column:1/-1}
+  .farghar-clock-mobile-list{display:block}
+}
+
+/* ============================================================================
+   19. RESPONSIVE PHONE (max-width 560px)
+   ============================================================================ */
+@media (max-width:560px){
+  .farghar-header-inner{padding:0 16px}
+  .farghar-hero{padding:24px 16px 4px}
+  .farghar-hero h1{font-size:24px}
+  .farghar-clock-section{padding:20px 16px 40px;gap:24px}
+  .farghar-philosophy h2{font-size:22px}
+  .farghar-market-bar-inner,.farghar-layout{padding-inline:16px}
+  .farghar-footer-inner{grid-template-columns:1fr}
+  .farghar-back-top{inset-inline-end:16px;bottom:16px}
+  .farghar-clock-mobile-list-inner{grid-template-columns:1fr}
+}
+
+/* ============================================================================
+   20. KAIOS AND JIO PHONE 2 (max-width 320px)
+   ----------------------------------------------------------------------------
+   Screen 240x320 - Low memory - D-pad navigation - No backdrop filter.
+   ============================================================================ */
+@media (max-width:320px){
+  :root{--farghar-header-h:52px}
+  html{scroll-behavior:auto}
+  body{font-size:12.5px;line-height:1.6}
+  .farghar-header-inner{padding:0 8px;height:52px;gap:6px}
+  .farghar-logo{font-size:14px;gap:6px}
+  .farghar-logo-mark{width:24px;height:24px}
+  .farghar-logo-mark svg{width:14px;height:14px}
+  .farghar-nav{display:none}
+  .farghar-mobile-menu-btn{display:inline-flex;width:34px;height:34px}
+  .farghar-btn-dark{font-size:11px;padding:7px 12px;min-height:34px;display:inline-flex;align-items:center}
+  .farghar-promo{padding:6px 32px 6px 8px;font-size:10.5px;gap:4px}
+  .farghar-promo-ico{width:12px;height:12px;display:none}
+  .farghar-promo a{display:none}
+  .farghar-promo-close{width:22px;height:22px;inset-inline-end:6px}
+  .farghar-promo-close svg{width:12px;height:12px}
+  .farghar-hero{padding:16px 10px 2px}
+  .farghar-hero h1{font-size:18px;line-height:1.3;margin-bottom:8px}
+  .farghar-hero p{font-size:11.5px;line-height:1.7}
+  .farghar-hero-stats{gap:12px;margin-top:12px}
+  .farghar-hero-stat b{font-size:15px}
+  .farghar-hero-stat span{font-size:9.5px}
+  .farghar-clock-section{grid-template-columns:1fr;padding:12px 10px 24px;gap:16px}
+  .farghar-philosophy{gap:8px;text-align:center;align-items:center}
+  .farghar-philosophy-badge{font-size:10px;padding:4px 10px}
+  .farghar-philosophy-badge svg{width:12px;height:12px}
+  .farghar-philosophy h2{font-size:16px;line-height:1.4}
+  .farghar-philosophy p{font-size:11px;line-height:1.7}
+  .farghar-philosophy-list{gap:6px;margin-top:2px}
+  .farghar-philosophy-item{font-size:11px;gap:8px}
+  .farghar-philosophy-item .farghar-ph-check{width:16px;height:16px}
+  .farghar-philosophy-item .farghar-ph-check svg{width:9px;height:9px}
+  .farghar-clock{--farghar-clock-size:216px;--farghar-clock-radius:80px;box-shadow:0 4px 12px rgba(0,0,0,.06),inset 0 0 0 4px var(--farghar-surface),inset 0 0 0 5px var(--farghar-border)}
+  .farghar-clock::before{inset:14%;border-style:solid;opacity:.3}
+  .farghar-clock::after{display:none}
+  .farghar-clock-hour{width:34px;height:34px;border-width:1px}
+  .farghar-clock-hour:hover,.farghar-clock-hour:focus{box-shadow:0 0 0 3px rgba(56,88,233,.2)}
+  .farghar-clock-num{font-size:11px}
+  .farghar-clock-dot{width:4px;height:4px}
+  .farghar-clock-hand{width:2px}
+  .farghar-clock-hand::after{width:8px;height:8px;top:-4px}
+  .farghar-clock-center{inset:34%;padding:8px}
+  .farghar-clock-slogan{font-size:9.5px;line-height:1.35}
+  .farghar-clock-icon{width:16px;height:16px;animation:none}
+  .farghar-clock-info-num{font-size:9px}
+  .farghar-clock-info-title{font-size:10px;line-height:1.3}
+  .farghar-clock-info-meta{font-size:8.5px;display:none}
+  .farghar-clock-mobile-list{display:block;padding:0 10px;margin-top:12px}
+  .farghar-clock-mobile-list-inner{grid-template-columns:1fr;gap:5px}
+  .farghar-clock-mobile-item{padding:9px 10px;font-size:11.5px;min-height:38px}
+  .farghar-clock-mobile-num{width:22px;height:22px;font-size:10px}
+  .farghar-clock-mobile-title{font-size:11.5px}
+  .farghar-market-bar{padding:10px 0 8px}
+  .farghar-market-bar-inner{padding:0 10px;gap:6px}
+  .farghar-market-left h2{font-size:14px}
+  .farghar-count-pill{font-size:10px;padding:2px 7px}
+  .farghar-search{height:34px;padding:0 10px;gap:6px}
+  .farghar-search-ico{width:14px;height:14px}
+  .farghar-search input{font-size:12px}
+  .farghar-sort-wrap{min-width:0;flex:1 1 100%}
+  .farghar-sort-trigger{height:34px;font-size:11.5px;padding:0 10px}
+  .farghar-sort-chev svg{width:12px;height:12px}
+  .farghar-filter-toggle{height:34px;padding:0 10px;font-size:11px;gap:4px}
+  .farghar-filter-toggle svg{width:13px;height:13px}
+  .farghar-view-toggle{height:34px;padding:2px}
+  .farghar-view-toggle button{width:30px;height:30px}
+  .farghar-view-toggle svg{width:14px;height:14px}
+  .farghar-layout{grid-template-columns:1fr;padding:14px 10px 60px;gap:12px}
+  .farghar-sidebar{width:100%;max-width:260px;padding:16px 12px}
+  .farghar-fhead{padding:10px 6px;font-size:12.5px;min-height:40px}
+  .farghar-frow{padding:7px 6px;font-size:11.5px;min-height:38px}
+  .farghar-ricon{width:12px;height:12px}
+  .farghar-rtick{width:14px;height:14px}
+  .farghar-crow{padding:9px 6px;font-size:11.5px;min-height:38px}
+  .farghar-cbox{width:14px;height:14px}
+  .farghar-results-head{margin-bottom:10px}
+  .farghar-results-count{font-size:11.5px}
+  .farghar-grid{grid-template-columns:1fr;gap:10px}
+  .farghar-card{padding:12px;gap:8px;border-radius:12px}
+  .farghar-card::before{width:3px}
+  .farghar-pico{width:28px;height:28px;font-size:12px}
+  .farghar-card-title{font-size:12.5px}
+  .farghar-card-meta{font-size:10px}
+  .farghar-badge{font-size:9px;padding:2px 6px}
+  .farghar-badge-level{font-size:9px;padding:2px 6px}
+  .farghar-card-desc{font-size:11px;line-height:1.7;-webkit-line-clamp:3;min-height:auto}
+  .farghar-tag{font-size:9px;padding:2px 6px}
+  .farghar-card-foot{padding-top:10px;gap:8px}
+  .farghar-price{font-size:12px}
+  .farghar-price small{font-size:9px}
+  .farghar-btn{height:32px;padding:0 12px;font-size:11px}
+  .farghar-card-foot .farghar-btn-ghost{display:none}
+  .farghar-modal{padding:6px}
+  .farghar-modal-card{max-height:94vh;border-radius:12px}
+  .farghar-modal-head{padding:10px 12px;gap:8px}
+  .farghar-modal-head .farghar-pico{width:30px;height:30px;font-size:12px}
+  .farghar-modal-title h3{font-size:12.5px;margin-bottom:2px}
+  .farghar-modal-title p{font-size:10px}
+  .farghar-modal-close{width:28px;height:28px}
+  .farghar-modal-close svg{width:14px;height:14px}
+  .farghar-modal-body{padding:10px 12px}
+  .farghar-modal-body h4{font-size:10.5px;margin-bottom:8px}
+  .farghar-lesson{padding:7px 8px;font-size:11px;gap:8px}
+  .farghar-lesson .farghar-num{width:18px;height:18px;font-size:9px}
+  .farghar-modal-foot{padding:10px 12px;gap:6px}
+  .farghar-modal-foot .farghar-btn{height:34px;font-size:11.5px;flex:1}
+  .farghar-site-footer{padding:24px 12px 18px}
+  .farghar-footer-inner{grid-template-columns:1fr;gap:20px}
+  .farghar-footer-brand p{font-size:11px;line-height:1.8;margin-top:8px}
+  .farghar-footer-col h3{font-size:11.5px;margin-bottom:8px}
+  .farghar-footer-col a{font-size:11px;padding:4px 0}
+  .farghar-footer-social a{width:28px;height:28px}
+  .farghar-footer-social svg{width:13px;height:13px}
+  .farghar-footer-bottom{margin-top:20px;padding-top:12px;font-size:10px;gap:8px}
+  .farghar-footer-bottom .farghar-legal{gap:10px}
+  .farghar-toast{font-size:10.5px;padding:7px 12px;bottom:12px;border-radius:8px}
+  .farghar-back-top{width:32px;height:32px;right:10px;bottom:10px}
+  .farghar-back-top svg{width:14px;height:14px}
+  .farghar-clock-icon{animation:none}
+  .farghar-card:hover{transform:none}
+}
+
+/* ============================================================================
+   21. VERY SMALL PHONES (max-width 240px)
+   ============================================================================ */
+@media (max-width:240px){
+  body{font-size:11.5px}
+  .farghar-hero h1{font-size:15px}
+  .farghar-hero p{font-size:10.5px}
+  .farghar-philosophy h2{font-size:14px}
+  .farghar-philosophy p{font-size:10px}
+  .farghar-clock{--farghar-clock-size:180px;--farghar-clock-radius:66px}
+  .farghar-clock-hour{width:28px;height:28px}
+  .farghar-clock-num{font-size:10px}
+  .farghar-clock-dot{display:none}
+  .farghar-clock-center{inset:36%;padding:6px}
+  .farghar-clock-slogan{font-size:8.5px}
+  .farghar-clock-icon{display:none}
+  .farghar-clock-info-meta{display:none}
+  .farghar-card{padding:10px}
+  .farghar-card-title{font-size:11.5px}
+  .farghar-card-desc{-webkit-line-clamp:2;font-size:10.5px}
+  .farghar-btn{height:30px;font-size:10.5px;padding:0 10px}
+}
+
+/* ============================================================================
+   22. SMARTWATCH SQUARE (max-width 450px, aspect ratio 4:5 to 5:4)
+   ----------------------------------------------------------------------------
+   Square or round displays. Safe area is reserved for round screens.
+   ============================================================================ */
+@media (max-width:450px) and (min-aspect-ratio: 4/5) and (max-aspect-ratio: 5/4){
+  :root{--farghar-watch-safe:12%;--farghar-watch-pad:calc(var(--farghar-watch-safe) / 2)}
+  html{scroll-behavior:auto}
+  body{font-size:11px;line-height:1.55;padding:var(--farghar-watch-pad)}
+  .farghar-site-header{display:none}
+  .farghar-promo{display:none}
+  .farghar-hero{padding:10px 12px 4px}
+  .farghar-hero h1{font-size:15px;line-height:1.25;margin-bottom:4px}
+  .farghar-hero p{display:none}
+  .farghar-hero-stats{gap:8px;margin-top:6px}
+  .farghar-hero-stat b{font-size:12px}
+  .farghar-hero-stat span{font-size:8.5px}
+  .farghar-clock-section{grid-template-columns:1fr;padding:8px 6px 12px;gap:8px}
+  .farghar-philosophy{display:none}
+  .farghar-clock{--farghar-clock-size:190px;--farghar-clock-radius:72px;box-shadow:0 2px 8px rgba(0,0,0,.05),inset 0 0 0 4px var(--farghar-surface),inset 0 0 0 5px var(--farghar-border)}
+  .farghar-clock::before{inset:16%;opacity:.25}
+  .farghar-clock::after{display:none}
+  .farghar-clock-hour{width:30px;height:30px;border-width:1px;background:var(--farghar-surface)}
+  .farghar-clock-num{font-size:10px}
+  .farghar-clock-dot{display:none}
+  .farghar-clock-hand{width:2px}
+  .farghar-clock-hand::after{width:7px;height:7px;top:-3px;box-shadow:0 0 0 2px rgba(56,88,233,.15)}
+  .farghar-clock-center{inset:34%;padding:6px}
+  .farghar-clock-slogan{font-size:8.5px;line-height:1.3}
+  .farghar-clock-icon{width:14px;height:14px;animation:none}
+  .farghar-clock-info-num{font-size:8px}
+  .farghar-clock-info-title{font-size:9px;line-height:1.25}
+  .farghar-clock-info-meta{display:none}
+  .farghar-clock-mobile-list{display:block;padding:0 6px;margin-top:6px}
+  .farghar-clock-mobile-list-inner{grid-template-columns:1fr;gap:3px}
+  .farghar-clock-mobile-item{padding:7px 8px;font-size:10px;min-height:32px;border-radius:8px}
+  .farghar-clock-mobile-num{width:18px;height:18px;font-size:9px}
+  .farghar-clock-mobile-title{font-size:10px}
+  .farghar-market-bar{padding:6px 0 4px;position:static}
+  .farghar-market-bar-inner{padding:0 6px;gap:4px}
+  .farghar-market-left h2{font-size:12px}
+  .farghar-count-pill{font-size:9px;padding:2px 6px}
+  .farghar-market-right{gap:4px}
+  .farghar-search{height:30px;padding:0 8px;gap:4px;flex:1 1 100%}
+  .farghar-search-ico{width:12px;height:12px}
+  .farghar-search input{font-size:10.5px}
+  .farghar-sort-wrap{min-width:0;flex:1 1 100%}
+  .farghar-sort-trigger{height:30px;font-size:10px;padding:0 8px}
+  .farghar-sort-chev svg{width:11px;height:11px}
+  .farghar-filter-toggle{height:30px;padding:0 8px;font-size:10px;gap:3px}
+  .farghar-filter-toggle svg{width:11px;height:11px}
+  .farghar-view-toggle{display:none}
+  .farghar-layout{padding:8px 6px 30px;gap:8px;grid-template-columns:1fr}
+  .farghar-results-head{display:none}
+  .farghar-sidebar{position:fixed;inset-block:0;inset-inline-start:0;width:88%;max-width:280px;z-index:60;background:var(--farghar-surface);padding:16px 12px;transform:translateX(100%);transition:transform .22s ease;overflow-y:auto;border-inline-end:1px solid var(--farghar-border)}
+  .farghar-sidebar.open{transform:translateX(0)}
+  .farghar-grid{grid-template-columns:1fr;gap:6px}
+  .farghar-card{padding:8px 10px;gap:4px;border-radius:10px}
+  .farghar-card::before{width:3px}
+  .farghar-pico{width:22px;height:22px;font-size:10px}
+  .farghar-card-title{font-size:11px;line-height:1.3}
+  .farghar-card-meta{font-size:9px;margin-top:0}
+  .farghar-badge{display:none}
+  .farghar-badge-level{display:none}
+  .farghar-card-desc{display:none}
+  .farghar-tags{display:none}
+  .farghar-card-foot{padding-top:6px;gap:6px;border-top:1px solid var(--farghar-border)}
+  .farghar-price{font-size:10.5px}
+  .farghar-btn{height:26px;padding:0 10px;font-size:10px;border-radius:999px}
+  .farghar-card-foot .farghar-btn-ghost{display:none}
+  .farghar-modal{padding:4px;align-items:center}
+  .farghar-modal-card{max-height:96vh;border-radius:12px}
+  .farghar-modal-head{padding:8px 10px;gap:6px}
+  .farghar-modal-head .farghar-pico{width:24px;height:24px;font-size:10px}
+  .farghar-modal-title h3{font-size:11px;margin-bottom:0}
+  .farghar-modal-title p{font-size:9px}
+  .farghar-modal-close{width:24px;height:24px}
+  .farghar-modal-close svg{width:12px;height:12px}
+  .farghar-modal-body{padding:8px 10px}
+  .farghar-modal-body h4{font-size:9.5px;margin-bottom:6px}
+  .farghar-lesson{padding:5px 8px;font-size:10px;gap:6px}
+  .farghar-lesson .farghar-num{width:16px;height:16px;font-size:8px}
+  .farghar-modal-foot{padding:6px 10px;gap:4px}
+  .farghar-modal-foot .farghar-btn{height:28px;font-size:10px;flex:1}
+  .farghar-site-footer{padding:12px 8px 10px}
+  .farghar-footer-inner{display:block}
+  .farghar-footer-brand p{display:none}
+  .farghar-footer-social{display:none}
+  .farghar-footer-col{display:none}
+  .farghar-footer-bottom{margin-top:0;padding-top:0;border-top:0;font-size:8.5px;justify-content:center}
+  .farghar-footer-bottom .farghar-legal{display:none}
+  .farghar-toast{font-size:9.5px;padding:5px 10px;bottom:8px;border-radius:6px;max-width:80vw}
+  .farghar-back-top{display:none}
+}
+
+/* ============================================================================
+   23. SMARTWATCH WIDE (max-width 450px, aspect ratio 5:4 to 21:9)
+   ============================================================================ */
+@media (max-width:450px) and (min-aspect-ratio: 5/4) and (max-aspect-ratio: 21/9){
+  .farghar-site-header{padding-inline:calc(var(--farghar-watch-safe,12%))}
+  .farghar-site-header{display:none}
+  .farghar-promo{display:none}
+  .farghar-hero{padding:8px 10% 4px}
+  .farghar-hero p{display:none}
+  .farghar-hero h1{font-size:14px}
+  .farghar-clock-section{padding:6px 8% 10px;gap:6px}
+  .farghar-clock{--farghar-clock-size:170px;--farghar-clock-radius:64px}
+  .farghar-clock-hour{width:26px;height:26px}
+  .farghar-clock-num{font-size:9px}
+  .farghar-clock-center{inset:36%}
+  .farghar-clock-info-meta{display:none}
+  .farghar-philosophy h2{font-size:12px}
+  .farghar-philosophy p{font-size:9.5px}
+  .farghar-philosophy-list{display:none}
+  .farghar-clock-mobile-list{padding:0 8%;margin-top:4px}
+  .farghar-layout{padding:6px 8% 20px}
+  .farghar-grid{grid-template-columns:repeat(2,1fr);gap:5px}
+  .farghar-card-desc,.farghar-tags,.farghar-badge,.farghar-badge-level{display:none}
+  .farghar-card-title{font-size:10px}
+  .farghar-card-meta{font-size:8.5px}
+  .farghar-btn{height:24px;font-size:9px;padding:0 8px}
+  .farghar-site-footer{padding:8px;font-size:8px}
+  .farghar-footer-brand,.farghar-footer-col,.farghar-footer-social{display:none}
+  .farghar-footer-bottom{margin:0;padding:0;border:0;justify-content:center}
+  .farghar-footer-bottom .farghar-legal{display:none}
+}
+
+/* ============================================================================
+   24. REDUCED MOTION PREFERENCE
+   ============================================================================ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
+  .farghar-clock-icon{animation:none}
+  .farghar-carousel{scroll-behavior:auto}
+}
+
+/* ============================================================================
+   25. BACKDROP FILTER FALLBACK
+   ============================================================================ */
+@supports not (backdrop-filter: blur(10px)){
+  .farghar-site-header{background:#fafafa}
+  .farghar-market-bar{background:#fafafa}
+  .farghar-modal-bg{background:rgba(0,0,0,.7)}
+}
+
+/* ============================================================================
+   26. FORCED COLORS ACCESSIBILITY
+   ============================================================================ */
+@media (forced-colors: active){
+  .farghar-clock-hour{border:2px solid ButtonText}
+  .farghar-btn-primary{border:1px solid ButtonText}
+}
+
+/* ============================================================================
+   27. LOW POWER AND D-PAD MODES
+   ============================================================================ */
+.farghar-low-power .farghar-clock-icon{animation:none}
+.farghar-low-power .farghar-card:hover{transform:none;box-shadow:var(--farghar-shadow-sm)}
+.farghar-low-power .farghar-clock-hand{transition-duration:.25s}
+.farghar-dpad-mode .farghar-clock-hour:focus,.farghar-dpad-mode .farghar-btn:focus,.farghar-dpad-mode .farghar-frow:focus,.farghar-dpad-mode .farghar-crow:focus,.farghar-dpad-mode .farghar-clock-mobile-item:focus{outline:3px solid var(--farghar-accent);outline-offset:3px;z-index:10}
