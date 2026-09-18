@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<!--
+================================================================================
+  Farghar WordPress Academy - Single Page Application
+  Six levels - Twelve courses - Twenty-four topics
+  ------------------------------------------------------------------------------
+  Designer and architect: Farghar
+  Copyright (c) Farghar - All Rights Reserved.
+  ------------------------------------------------------------------------------
+  Philosophy: The speed of movement is more valuable than time itself.
+  Optimized for: Jio Phone 2 (KaiOS), Smartwatch, Reduced Motion mode.
+  Namespace: Farghar
+  ------------------------------------------------------------------------------
+  Structure:
+    - index.html         Main markup (this file)
+    - assets/css/style.css   All styles (base + responsive)
+    - assets/js/app.js       All application logic
+================================================================================
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="author" content="Farghar">
+<meta name="designer" content="Farghar">
+<meta name="copyright" content="Farghar">
+<meta name="theme-color" content="#3858e9">
+<meta name="mobile-web-app-capable" content="yes">
+<title>وردپرس آکادمی | ۱۲ ساعت تا تسلط بر وردپرس</title>
+<meta name="description" content="مسیر ۰ تا ۱۰۰ وردپرس در ۱۲ ایستگاه. طراحی و معماری: Farghar">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- PROMO BAR -->
+<div class="farghar-promo" id="fargharPromo">
+  <svg class="farghar-promo-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+  <span>مسیر کامل <b>«۱۲ ساعت تا تسلط»</b> فعال شد</span>
+  <button class="farghar-promo-close" id="fargharPromoClose" aria-label="بستن">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+</div>
+
+<!-- SITE HEADER -->
+<header class="farghar-site-header">
+  <div class="farghar-header-inner">
+    <a href="#top" class="farghar-logo">
+      <span class="farghar-logo-mark">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+      </span>
+      وردپرس آکادمی
+    </a>
+    <nav class="farghar-nav">
+      <a href="#clock" class="active">ساعت ۱۲ ساعته</a>
+      <a href="#courses">دوره‌ها</a>
+      <a href="#courses">مسیر یادگیری</a>
+    </nav>
+    <div class="farghar-header-actions">
+      <a href="#courses" class="farghar-btn-dark">شروع یادگیری</a>
+      <button class="farghar-mobile-menu-btn" id="fargharMobileMenu" aria-label="منو">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="farghar-hero" id="top">
+  <h1>۱۲ ساعت تا <span class="farghar-hl">تسلط بر وردپرس</span></h1>
+  <p>مسیر ۰ تا ۱۰۰ وردپرس در ۱۲ ایستگاه. روی هر ساعت کلیک کنید تا سرفصل‌های آن دوره را ببینید.</p>
+  <div class="farghar-hero-stats">
+    <div class="farghar-hero-stat"><b>۶</b><span>سطح</span></div>
+    <div class="farghar-hero-stat"><b>۱۲</b><span>دوره</span></div>
+    <div class="farghar-hero-stat"><b>۲۴</b><span>موضوع</span></div>
+    <div class="farghar-hero-stat"><b>+۲۵۰</b><span>درس</span></div>
+  </div>
+</section>
+
+<!-- CLOCK SECTION -->
+<section class="farghar-clock-section" id="clock">
+  <div class="farghar-philosophy">
+    <span class="farghar-philosophy-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      فلسفه یادگیری ما
+    </span>
+    <h2>سرعت حرکت، <em>ارزشمندتر از زمان</em> است.</h2>
+    <p>در این آکادمی، ساعت‌ها برای شمردن دقیقه نیستند؛ آن‌ها ایستگاه‌های مسیر شما هستند. هر بار که روی یک ساعت کلیک می‌کنید، یک گام به جلو حرکت می‌کنید.</p>
+    <div class="farghar-philosophy-list">
+      <div class="farghar-philosophy-item">
+        <span class="farghar-ph-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span><b>حرکت پیوسته:</b> هر ایستگاه شما را به ایستگاه بعدی متصل می‌کند.</span>
+      </div>
+      <div class="farghar-philosophy-item">
+        <span class="farghar-ph-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span><b>بدون توقف:</b> از هر ساعت می‌توانید شروع کنید.</span>
+      </div>
+      <div class="farghar-philosophy-item">
+        <span class="farghar-ph-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span><b>معیار واقعی:</b> تعداد گام‌ها، نه تعداد ساعت‌ها.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="farghar-clock-container">
+    <div class="farghar-clock" id="fargharClock" role="group" aria-label="ساعت ۱۲ ساعته وردپرس آکادمی">
+      <div class="farghar-clock-hand" id="fargharClockHand"></div>
+      <div class="farghar-clock-center" id="fargharClockCenter" data-state="philosophy">
+        <div class="farghar-clock-philosophy-content">
+          <svg class="farghar-clock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+          </svg>
+          <span class="farghar-clock-slogan">حرکت کن<br><em>زمان می‌گذرد</em></span>
+        </div>
+        <div class="farghar-clock-info-content" id="fargharClockInfo">
+          <span class="farghar-clock-info-num" id="fargharClockInfoNum"></span>
+          <h3 class="farghar-clock-info-title" id="fargharClockInfoTitle"></h3>
+          <span class="farghar-clock-info-meta" id="fargharClockInfoMeta"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOCK MOBILE LIST -->
+<div class="farghar-clock-mobile-list" id="fargharClockMobileList">
+  <div class="farghar-clock-mobile-list-inner" id="fargharClockMobileListInner"></div>
+</div>
+
+<!-- MARKET BAR -->
+<div class="farghar-market-bar" id="fargharMarketBar">
+  <div class="farghar-market-bar-inner">
+    <div class="farghar-market-left">
+      <h2>دوره‌ها</h2>
+      <span class="farghar-count-pill" id="fargharTotalPill">۰</span>
+    </div>
+    <div class="farghar-market-right">
+      <div class="farghar-search" id="fargharSearchWrap">
+        <svg class="farghar-search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg>
+        <input type="search" id="fargharSearchInput" placeholder="جست‌وجو..." autocomplete="off">
+        <button class="farghar-clear" id="fargharClearSearch" aria-label="پاک کردن">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="farghar-sort-wrap">
+        <button type="button" class="farghar-sort-trigger" id="fargharSortTrigger" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="fargharSortMenu" data-state="closed">
+          <span class="farghar-sort-label" id="fargharSortLabel">ترتیب مسیر</span>
+          <span class="farghar-sort-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="farghar-sort-menu" id="fargharSortMenu" role="listbox" data-state="closed">
+          <button class="farghar-sort-option" role="option" data-value="path" aria-selected="true">
+            <span class="farghar-opt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>ترتیب مسیر</button>
+          <button class="farghar-sort-option" role="option" data-value="duration-asc" aria-selected="false">
+            <span class="farghar-opt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>کوتاه‌ترین</button>
+          <button class="farghar-sort-option" role="option" data-value="name-asc" aria-selected="false">
+            <span class="farghar-opt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>الفبا</button>
+        </div>
+      </div>
+      <button class="farghar-filter-toggle" id="fargharFilterToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+        فیلترها
+      </button>
+      <div class="farghar-view-toggle" role="group" aria-label="حالت نمایش">
+        <button id="fargharViewGrid" class="on" aria-label="شبکه‌ای" aria-pressed="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.8"/><rect x="14" y="3" width="7" height="7" rx="1.8"/><rect x="3" y="14" width="7" height="7" rx="1.8"/><rect x="14" y="14" width="7" height="7" rx="1.8"/></svg>
+        </button>
+        <button id="fargharViewList" aria-label="فهرستی" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11M5 6h.01M5 12h.01M5 18h.01"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="farghar-scrim" id="fargharScrim"></div>
+
+<!-- LAYOUT -->
+<div class="farghar-layout" id="fargharCourses">
+  <aside class="farghar-sidebar" id="fargharSidebar">
+    <div class="farghar-fsec open">
+      <button class="farghar-fhead">
+        <svg class="farghar-ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5L2 10l10 5l10-5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg>
+        <span class="farghar-flabel">سطح یادگیری</span>
+        <svg class="farghar-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="farghar-fbody"><div id="fargharLevelFilters"></div></div>
+    </div>
+    <div class="farghar-fsec">
+      <button class="farghar-fhead">
+        <svg class="farghar-ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span class="farghar-flabel">موضوع</span>
+        <svg class="farghar-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="farghar-fbody"><div id="fargharTopicFilters"></div></div>
+    </div>
+    <div class="farghar-fsec">
+      <button class="farghar-fhead">
+        <svg class="farghar-ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8v4.2a2 2 0 0 0 .6 1.4l5.7 5.7a2.4 2.4 0 0 0 3.4 0l3.6-3.6a2.4 2.4 0 0 0 0-3.4l-5.7-5.7A2 2 0 0 0 9.2 6H5a2 2 0 0 0-2 2"/></svg>
+        <span class="farghar-flabel">دسترسی</span>
+        <svg class="farghar-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="farghar-fbody">
+        <div class="farghar-crow" data-flag="free">
+          <span class="farghar-cbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          <span>فقط رایگان</span>
+        </div>
+        <div class="farghar-crow" data-flag="sale">
+          <span class="farghar-cbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          <span>تخفیف‌دار</span>
+        </div>
+      </div>
+    </div>
+    <button class="farghar-reset-btn" id="fargharResetAll">پاک کردن فیلترها</button>
+  </aside>
+
+  <section>
+    <div class="farghar-results-head">
+      <div class="farghar-results-count"><b id="fargharShownCount">۰</b> دوره</div>
+      <button class="farghar-clear-all" id="fargharClearAll">حذف فیلترها</button>
+    </div>
+    <div class="farghar-grid" id="fargharGrid"></div>
+  </section>
+</div>
+
+<!-- MODAL -->
+<div class="farghar-modal" id="fargharModal" role="dialog" aria-modal="true" aria-labelledby="fargharModalTitle">
+  <div class="farghar-modal-bg" data-close></div>
+  <div class="farghar-modal-card">
+    <div class="farghar-modal-head">
+      <span class="farghar-pico" id="fargharModalIcon"></span>
+      <div class="farghar-modal-title">
+        <h3 id="fargharModalTitle"></h3>
+        <p id="fargharModalMeta"></p>
+      </div>
+      <button class="farghar-modal-close" data-close aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="farghar-modal-body">
+      <h4>سرفصل‌های دوره</h4>
+      <div class="farghar-lesson-list" id="fargharModalLessons"></div>
+    </div>
+    <div class="farghar-modal-foot">
+      <button class="farghar-btn farghar-btn-ghost" data-close>بستن</button>
+      <button class="farghar-btn farghar-btn-primary" id="fargharModalStart">شروع</button>
+    </div>
+  </div>
+</div>
+
+<!-- SITE FOOTER -->
+<footer class="farghar-site-footer" id="fargharFooter">
+  <div class="farghar-footer-inner">
+    <div class="farghar-footer-brand">
+      <div class="farghar-brand-row">
+        <span class="farghar-brand-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg></span>
+        وردپرس آکادمی
+      </div>
+      <p>مسیر ۰ تا ۱۰۰ وردپرس در ۱۲ ایستگاه. فلسفه: سرعت حرکت، ارزشمندتر از زمان است.</p>
+      <p style="font-size:11px;color:#6a6a6a;margin-top:8px">طراح و معمار: <b style="color:#a0a0a0">Farghar</b></p>
+    </div>
+    <div class="farghar-footer-col">
+      <h3>مسیر</h3>
+      <a href="#clock">ساعت ۱۲ ساعته</a>
+      <a href="#courses">همه دوره‌ها</a>
+      <a href="#courses">مبتدی</a>
+      <a href="#courses">توسعه‌دهنده</a>
+    </div>
+    <div class="farghar-footer-col">
+      <h3>منابع</h3>
+      <a href="#">مستندات</a>
+      <a href="#">واژه‌نامه</a>
+      <a href="#">وبلاگ</a>
+    </div>
+    <div class="farghar-footer-col">
+      <h3>پشتیبانی</h3>
+      <a href="#">تماس</a>
+      <a href="#">قوانین</a>
+      <a href="#">حریم خصوصی</a>
+    </div>
+  </div>
+  <div class="farghar-footer-bottom">
+    <span>© ۱۴۰۴ Farghar — تمامی حقوق محفوظ است.</span>
+    <div class="farghar-legal">
+      <a href="#">قوانین</a>
+      <a href="#">حریم خصوصی</a>
+    </div>
+  </div>
+</footer>
+
+<button class="farghar-back-top" id="fargharBackTop" aria-label="بازگشت به بالا">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+<div class="farghar-toast" id="fargharToast"></div>
+
+<script src="assets/js/app.js" defer></script>
+</body>
+</html>
