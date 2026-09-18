@@ -13,9 +13,9 @@
   Namespace: Farghar
   ------------------------------------------------------------------------------
   Structure:
-    - index.html         Main markup (this file)
-    - assets/css/style.css   All styles (base + responsive)
-    - assets/js/app.js       All application logic
+    - index.html              Main markup (this file)
+    - assets/css/style.css    All styles (base + responsive)
+    - assets/js/app.js        All application logic
 ================================================================================
 -->
 <head>
@@ -137,6 +137,10 @@
       <span class="farghar-count-pill" id="fargharTotalPill">۰</span>
     </div>
     <div class="farghar-market-right">
+      <button type="button" class="farghar-search-toggle" id="fargharSearchToggle" aria-label="جست‌وجو" aria-expanded="false" aria-controls="fargharSearchWrap">
+        <svg class="farghar-search-toggle-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg>
+        <svg class="farghar-search-toggle-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
       <div class="farghar-search" id="fargharSearchWrap">
         <svg class="farghar-search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg>
         <input type="search" id="fargharSearchInput" placeholder="جست‌وجو..." autocomplete="off">
@@ -158,9 +162,9 @@
             <span class="farghar-opt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>الفبا</button>
         </div>
       </div>
-      <button class="farghar-filter-toggle" id="fargharFilterToggle">
+      <button class="farghar-filter-toggle" id="fargharFilterToggle" aria-label="فیلترها">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
-        فیلترها
+        <span class="farghar-filter-toggle-label">فیلترها</span>
       </button>
       <div class="farghar-view-toggle" role="group" aria-label="حالت نمایش">
         <button id="fargharViewGrid" class="on" aria-label="شبکه‌ای" aria-pressed="true">
