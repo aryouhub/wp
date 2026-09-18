@@ -66,7 +66,7 @@
 
 ### روش اول — باز کردن مستقیم فایل
 
-فایل `wp 6.html` را در مرورگر باز کنید. همین.
+فایل `index.html` را در مرورگر باز کنید. همین.
 
 ### روش دوم — سرور محلی
 
@@ -100,7 +100,7 @@ http://localhost:8000
 
 1. وارد مخزن شوید: `https://github.com/USERNAME/REPO`
 2. به **Settings** بروید و از نوار کناری چپ **Pages** را انتخاب کنید.
-3. در بخش **Build and deployment**، گزینه **Source** را روی **GitHub Actions** قرار دهید. انتخاب `Deploy from a branch` در این پروژه کار نمی‌کند.
+3. در بخش **Build and deployment**، گزینه **Source** را روی **GitHub Actions** قرار دهید.
 4. به **Settings** سپس **Actions** سپس **General** بروید و در بخش **Workflow permissions** گزینه **Read and write permissions** را فعال و ذخیره کنید.
 
 ### دستورات Push
@@ -129,14 +129,17 @@ https://USERNAME.github.io/REPO/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml          GitHub Actions workflow for auto-deploy
+├── assets/
+│   ├── css/
+│   │   └── style.css           Stylesheet (base and responsive)
+│   └── js/
+│       └── app.js              Application logic
 ├── .gitignore                  Git ignore rules
 ├── .nojekyll                   Disables Jekyll processing on GitHub Pages
 ├── LICENSE                     Farghar proprietary license
 ├── README.md                   This file
-└── wp 6.html                   Main application (single-file SPA)
+└── index.html                  Main application entry point
 ```
-
-> **نکته مهم:** نام فایل اصلی `wp 6.html` دست‌نخورده باقی مانده است. گردش‌کار `deploy.yml` در لحظه انتشار، یک نسخه با نام `index.html` برای GitHub Pages تولید می‌کند.
 
 ---
 
@@ -152,7 +155,7 @@ window.Farghar.data.COURSES   // Twelve complete courses with lessons
 
 ### افزودن دوره جدید
 
-برای افزودن دوره جدید، تنها یک آبجکت به آرایه `COURSES` اضافه کنید. ساعت، فیلترها، کارت‌ها و Modal به‌طور خودکار به‌روزرسانی می‌شوند.
+برای افزودن دوره جدید، تنها یک آبجکت به آرایه `COURSES` در فایل `assets/js/app.js` اضافه کنید. ساعت، فیلترها، کارت‌ها و Modal به‌طور خودکار به‌روزرسانی می‌شوند.
 
 ```js
 {
@@ -217,7 +220,6 @@ window.Farghar.data.COURSES   // Twelve complete courses with lessons
 | خطای ۴۰۴ روی آدرس سایت | چند دقیقه صبر کنید؛ اولین انتشار ممکن است طول بکشد |
 | خطای `Jekyll build failed` | فایل `.nojekyll` را در ریشه پروژه قرار دهید |
 | Job در حالت Queued می‌ماند | مخزن باید Public باشد یا Pages در پلن پولی فعال شود |
-| لیست فایل‌ها به‌جای سایت نمایش داده می‌شود | مطمئن شوید گردش‌کار فایل `index.html` را در آرتیفکت قرار داده است |
 
 ---
 
