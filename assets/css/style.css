@@ -11,7 +11,7 @@
      6.  Clock section
      7.  Clock dial
      8.  Mobile clock list
-     9.  Market bar
+     9.  Market bar with dropdown search
      10. Layout grid
      11. Sidebar and filters
      12. Results head
@@ -180,7 +180,12 @@ svg{display:block;flex:none}
 .farghar-clock-mobile-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
 
 /* ============================================================================
-   9. MARKET BAR
+   9. MARKET BAR WITH DROPDOWN SEARCH
+   ----------------------------------------------------------------------------
+   Desktop layout: title, count, and controls all visible in one row.
+   Mobile layout: controlled by responsive sections below.
+   The search field is toggled by the magnifier button and appears
+   as a dropdown panel anchored to the market bar.
    ============================================================================ */
 .farghar-market-bar{position:sticky;top:var(--farghar-header-h);z-index:40;background:#fafafa;padding:22px 0 14px;border-bottom:1px solid transparent;transition:box-shadow .2s,border-color .2s}
 @supports (backdrop-filter: blur(10px)){.farghar-market-bar{background:rgba(250,250,250,.95);backdrop-filter:blur(10px)}}
@@ -190,6 +195,14 @@ svg{display:block;flex:none}
 .farghar-market-left h2{font-size:21px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
 .farghar-count-pill{background:#ededf0;color:var(--farghar-text-2);font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:var(--farghar-r-full)}
 .farghar-market-right{display:flex;align-items:center;gap:10px;justify-content:flex-end;min-width:0}
+.farghar-search-toggle{display:none;width:38px;height:38px;border-radius:var(--farghar-r-full);align-items:center;justify-content:center;background:var(--farghar-surface);border:1px solid var(--farghar-border);color:var(--farghar-text-2);flex:none;transition:border-color .15s,background .15s,color .15s}
+.farghar-search-toggle:hover{border-color:var(--farghar-border-2);color:var(--farghar-text)}
+.farghar-search-toggle[aria-expanded="true"]{background:var(--farghar-accent-soft);border-color:var(--farghar-accent);color:var(--farghar-accent)}
+.farghar-search-toggle svg{width:16px;height:16px}
+.farghar-search-toggle-open{display:block}
+.farghar-search-toggle-close{display:none}
+.farghar-search-toggle[aria-expanded="true"] .farghar-search-toggle-open{display:none}
+.farghar-search-toggle[aria-expanded="true"] .farghar-search-toggle-close{display:block}
 .farghar-search{display:flex;align-items:center;gap:8px;height:42px;padding:0 14px;background:var(--farghar-surface);border:1px solid var(--farghar-border);border-radius:var(--farghar-r-full);flex:1 1 auto;max-width:420px;min-width:0}
 .farghar-search:focus-within{border-color:var(--farghar-accent);box-shadow:0 0 0 3px rgba(56,88,233,.12)}
 .farghar-search-ico{color:var(--farghar-text-3);width:16px;height:16px}
@@ -388,11 +401,6 @@ svg{display:block;flex:none}
   .farghar-philosophy{text-align:center;padding-inline-end:0;align-items:center}
   .farghar-philosophy-list{max-width:400px}
   .farghar-philosophy-item{text-align:start}
-  .farghar-market-bar-inner{grid-template-columns:1fr;gap:12px}
-  .farghar-market-right{flex-wrap:wrap;justify-content:flex-start}
-  .farghar-search{max-width:none;flex:1 1 100%;order:-1}
-  .farghar-sort-wrap{flex:1 1 170px}
-  .farghar-filter-toggle{display:inline-flex}
   .farghar-layout{grid-template-columns:1fr;padding:20px 20px 70px}
   .farghar-sidebar{position:fixed;inset-block:0;inset-inline-start:0;width:310px;z-index:60;background:var(--farghar-surface);border-inline-end:1px solid var(--farghar-border);padding:22px 18px;max-height:none;transform:translateX(100%);transition:transform .26s ease;overflow-y:auto}
   .farghar-sidebar.open{transform:translateX(0)}
@@ -408,6 +416,11 @@ svg{display:block;flex:none}
 
 /* ============================================================================
    19. RESPONSIVE PHONE (max-width 560px)
+   ----------------------------------------------------------------------------
+   Market bar becomes a single horizontal line:
+     [count] [search-toggle] [sort] [filter] [view]
+   The course title is hidden to free horizontal space.
+   Search input is hidden by default and toggled by the magnifier button.
    ============================================================================ */
 @media (max-width:560px){
   .farghar-header-inner{padding:0 16px}
@@ -415,7 +428,43 @@ svg{display:block;flex:none}
   .farghar-hero h1{font-size:24px}
   .farghar-clock-section{padding:20px 16px 40px;gap:24px}
   .farghar-philosophy h2{font-size:22px}
-  .farghar-market-bar-inner,.farghar-layout{padding-inline:16px}
+  .farghar-layout{padding-inline:16px}
+
+  /* Market bar: one horizontal line */
+  .farghar-market-bar{padding:8px 0;position:sticky}
+  .farghar-market-bar-inner{display:flex;flex-wrap:nowrap;gap:8px;padding:0 16px;align-items:center}
+  .farghar-market-left{flex:0 0 auto;gap:6px}
+  .farghar-market-left h2{display:none}
+  .farghar-count-pill{font-size:11px;padding:3px 9px}
+  .farghar-market-right{flex:1 1 auto;display:flex;flex-wrap:nowrap;gap:6px;justify-content:flex-end;min-width:0}
+
+  /* Search toggle button */
+  .farghar-search-toggle{display:inline-flex;width:38px;height:38px}
+  .farghar-search-toggle svg{width:17px;height:17px}
+
+  /* Search becomes an absolute dropdown panel */
+  .farghar-search{display:none;position:absolute;top:calc(100% + 6px);inset-inline:16px;max-width:none;flex:none;height:44px;padding:0 14px;border-radius:var(--farghar-r-md);z-index:45;box-shadow:var(--farghar-shadow-lg);background:var(--farghar-surface);border-color:var(--farghar-border-2)}
+  .farghar-search.open{display:flex}
+  .farghar-search-ico{display:none}
+  .farghar-search input{padding-inline:0;font-size:14px}
+
+  /* Sort wrap: compact */
+  .farghar-sort-wrap{flex:0 0 auto;min-width:0}
+  .farghar-sort-trigger{height:38px;padding:0 12px;font-size:12px;gap:6px;width:auto}
+  .farghar-sort-label{max-width:82px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .farghar-sort-chev svg{width:13px;height:13px}
+
+  /* Filter toggle: icon only */
+  .farghar-filter-toggle{display:inline-flex;height:38px;width:38px;padding:0;justify-content:center}
+  .farghar-filter-toggle-label{display:none}
+  .farghar-filter-toggle svg{width:17px;height:17px}
+
+  /* View toggle: compact */
+  .farghar-view-toggle{height:38px;padding:2px;gap:1px}
+  .farghar-view-toggle button{width:32px;height:32px}
+  .farghar-view-toggle svg{width:15px;height:15px}
+
+  /* Cards and footer adjustments */
   .farghar-footer-inner{grid-template-columns:1fr}
   .farghar-back-top{inset-inline-end:16px;bottom:16px}
   .farghar-clock-mobile-list-inner{grid-template-columns:1fr}
@@ -425,6 +474,7 @@ svg{display:block;flex:none}
    20. KAIOS AND JIO PHONE 2 (max-width 320px)
    ----------------------------------------------------------------------------
    Screen 240x320 - Low memory - D-pad navigation - No backdrop filter.
+   Market bar stays a single horizontal line with minimal controls.
    ============================================================================ */
 @media (max-width:320px){
   :root{--farghar-header-h:52px}
@@ -478,21 +528,29 @@ svg{display:block;flex:none}
   .farghar-clock-mobile-item{padding:9px 10px;font-size:11.5px;min-height:38px}
   .farghar-clock-mobile-num{width:22px;height:22px;font-size:10px}
   .farghar-clock-mobile-title{font-size:11.5px}
-  .farghar-market-bar{padding:10px 0 8px}
-  .farghar-market-bar-inner{padding:0 10px;gap:6px}
-  .farghar-market-left h2{font-size:14px}
+
+  /* Market bar: compact horizontal line */
+  .farghar-market-bar{padding:6px 0;position:sticky}
+  .farghar-market-bar-inner{display:flex;flex-wrap:nowrap;gap:5px;padding:0 10px;align-items:center}
+  .farghar-market-left{flex:0 0 auto}
+  .farghar-market-left h2{display:none}
   .farghar-count-pill{font-size:10px;padding:2px 7px}
-  .farghar-search{height:34px;padding:0 10px;gap:6px}
-  .farghar-search-ico{width:14px;height:14px}
-  .farghar-search input{font-size:12px}
-  .farghar-sort-wrap{min-width:0;flex:1 1 100%}
-  .farghar-sort-trigger{height:34px;font-size:11.5px;padding:0 10px}
-  .farghar-sort-chev svg{width:12px;height:12px}
-  .farghar-filter-toggle{height:34px;padding:0 10px;font-size:11px;gap:4px}
-  .farghar-filter-toggle svg{width:13px;height:13px}
-  .farghar-view-toggle{height:34px;padding:2px}
-  .farghar-view-toggle button{width:30px;height:30px}
-  .farghar-view-toggle svg{width:14px;height:14px}
+  .farghar-market-right{flex:1 1 auto;display:flex;flex-wrap:nowrap;gap:4px;justify-content:flex-end;min-width:0}
+  .farghar-search-toggle{display:inline-flex;width:32px;height:32px;flex:none}
+  .farghar-search-toggle svg{width:14px;height:14px}
+  .farghar-search{position:absolute;top:calc(100% + 4px);inset-inline:10px;max-width:none;height:36px;padding:0 10px;border-radius:var(--farghar-r-sm);z-index:45;box-shadow:var(--farghar-shadow-md)}
+  .farghar-search.open{display:flex}
+  .farghar-search-ico{display:none}
+  .farghar-search input{font-size:12px;padding-inline:0}
+  .farghar-sort-wrap{flex:0 0 auto;min-width:0}
+  .farghar-sort-trigger{height:32px;font-size:11px;padding:0 8px;gap:4px}
+  .farghar-sort-label{max-width:70px}
+  .farghar-sort-chev svg{width:11px;height:11px}
+  .farghar-filter-toggle{display:inline-flex;height:32px;width:32px;padding:0;justify-content:center;flex:none}
+  .farghar-filter-toggle-label{display:none}
+  .farghar-filter-toggle svg{width:14px;height:14px}
+  .farghar-view-toggle{display:none}
+
   .farghar-layout{grid-template-columns:1fr;padding:14px 10px 60px;gap:12px}
   .farghar-sidebar{width:100%;max-width:260px;padding:16px 12px}
   .farghar-fhead{padding:10px 6px;font-size:12.5px;min-height:40px}
@@ -565,6 +623,13 @@ svg{display:block;flex:none}
   .farghar-clock-slogan{font-size:8.5px}
   .farghar-clock-icon{display:none}
   .farghar-clock-info-meta{display:none}
+  .farghar-market-bar-inner{gap:4px;padding:0 8px}
+  .farghar-search-toggle{width:30px;height:30px}
+  .farghar-search-toggle svg{width:13px;height:13px}
+  .farghar-sort-trigger{height:30px;font-size:10px;padding:0 7px}
+  .farghar-sort-label{max-width:58px}
+  .farghar-filter-toggle{height:30px;width:30px}
+  .farghar-filter-toggle svg{width:13px;height:13px}
   .farghar-card{padding:10px}
   .farghar-card-title{font-size:11.5px}
   .farghar-card-desc{-webkit-line-clamp:2;font-size:10.5px}
@@ -575,6 +640,7 @@ svg{display:block;flex:none}
    22. SMARTWATCH SQUARE (max-width 450px, aspect ratio 4:5 to 5:4)
    ----------------------------------------------------------------------------
    Square or round displays. Safe area is reserved for round screens.
+   Market bar is a compact single horizontal line.
    ============================================================================ */
 @media (max-width:450px) and (min-aspect-ratio: 4/5) and (max-aspect-ratio: 5/4){
   :root{--farghar-watch-safe:12%;--farghar-watch-pad:calc(var(--farghar-watch-safe) / 2)}
@@ -609,24 +675,36 @@ svg{display:block;flex:none}
   .farghar-clock-mobile-item{padding:7px 8px;font-size:10px;min-height:32px;border-radius:8px}
   .farghar-clock-mobile-num{width:18px;height:18px;font-size:9px}
   .farghar-clock-mobile-title{font-size:10px}
-  .farghar-market-bar{padding:6px 0 4px;position:static}
-  .farghar-market-bar-inner{padding:0 6px;gap:4px}
-  .farghar-market-left h2{font-size:12px}
+
+  /* Market bar: single compact horizontal line */
+  .farghar-market-bar{padding:4px 0;position:sticky}
+  .farghar-market-bar-inner{display:flex;flex-wrap:nowrap;gap:4px;padding:0 6px;align-items:center}
+  .farghar-market-left{flex:0 0 auto}
+  .farghar-market-left h2{display:none}
   .farghar-count-pill{font-size:9px;padding:2px 6px}
-  .farghar-market-right{gap:4px}
-  .farghar-search{height:30px;padding:0 8px;gap:4px;flex:1 1 100%}
-  .farghar-search-ico{width:12px;height:12px}
-  .farghar-search input{font-size:10.5px}
-  .farghar-sort-wrap{min-width:0;flex:1 1 100%}
-  .farghar-sort-trigger{height:30px;font-size:10px;padding:0 8px}
-  .farghar-sort-chev svg{width:11px;height:11px}
-  .farghar-filter-toggle{height:30px;padding:0 8px;font-size:10px;gap:3px}
-  .farghar-filter-toggle svg{width:11px;height:11px}
+  .farghar-market-right{flex:1 1 auto;display:flex;flex-wrap:nowrap;gap:4px;justify-content:flex-end;min-width:0}
+  .farghar-search-toggle{display:inline-flex;width:28px;height:28px;flex:none}
+  .farghar-search-toggle svg{width:13px;height:13px}
+  .farghar-search{position:absolute;top:calc(100% + 3px);inset-inline:6px;max-width:none;height:32px;padding:0 10px;border-radius:var(--farghar-r-sm);z-index:45;box-shadow:var(--farghar-shadow-md)}
+  .farghar-search.open{display:flex}
+  .farghar-search-ico{display:none}
+  .farghar-search input{font-size:11px;padding-inline:0}
+  .farghar-sort-wrap{flex:0 0 auto;min-width:0}
+  .farghar-sort-trigger{height:28px;font-size:9.5px;padding:0 7px;gap:3px;border-radius:var(--farghar-r-sm)}
+  .farghar-sort-label{max-width:54px}
+  .farghar-sort-chev svg{width:10px;height:10px}
+  .farghar-filter-toggle{display:inline-flex;height:28px;width:28px;padding:0;justify-content:center;flex:none;border-radius:var(--farghar-r-sm)}
+  .farghar-filter-toggle-label{display:none}
+  .farghar-filter-toggle svg{width:12px;height:12px}
   .farghar-view-toggle{display:none}
+
+  /* Layout */
   .farghar-layout{padding:8px 6px 30px;gap:8px;grid-template-columns:1fr}
   .farghar-results-head{display:none}
   .farghar-sidebar{position:fixed;inset-block:0;inset-inline-start:0;width:88%;max-width:280px;z-index:60;background:var(--farghar-surface);padding:16px 12px;transform:translateX(100%);transition:transform .22s ease;overflow-y:auto;border-inline-end:1px solid var(--farghar-border)}
   .farghar-sidebar.open{transform:translateX(0)}
+
+  /* Cards: minimal */
   .farghar-grid{grid-template-columns:1fr;gap:6px}
   .farghar-card{padding:8px 10px;gap:4px;border-radius:10px}
   .farghar-card::before{width:3px}
@@ -641,6 +719,8 @@ svg{display:block;flex:none}
   .farghar-price{font-size:10.5px}
   .farghar-btn{height:26px;padding:0 10px;font-size:10px;border-radius:999px}
   .farghar-card-foot .farghar-btn-ghost{display:none}
+
+  /* Modal: full screen */
   .farghar-modal{padding:4px;align-items:center}
   .farghar-modal-card{max-height:96vh;border-radius:12px}
   .farghar-modal-head{padding:8px 10px;gap:6px}
@@ -655,6 +735,8 @@ svg{display:block;flex:none}
   .farghar-lesson .farghar-num{width:16px;height:16px;font-size:8px}
   .farghar-modal-foot{padding:6px 10px;gap:4px}
   .farghar-modal-foot .farghar-btn{height:28px;font-size:10px;flex:1}
+
+  /* Footer: minimal */
   .farghar-site-footer{padding:12px 8px 10px}
   .farghar-footer-inner{display:block}
   .farghar-footer-brand p{display:none}
@@ -662,6 +744,8 @@ svg{display:block;flex:none}
   .farghar-footer-col{display:none}
   .farghar-footer-bottom{margin-top:0;padding-top:0;border-top:0;font-size:8.5px;justify-content:center}
   .farghar-footer-bottom .farghar-legal{display:none}
+
+  /* Toast and back top */
   .farghar-toast{font-size:9.5px;padding:5px 10px;bottom:8px;border-radius:6px;max-width:80vw}
   .farghar-back-top{display:none}
 }
@@ -670,7 +754,6 @@ svg{display:block;flex:none}
    23. SMARTWATCH WIDE (max-width 450px, aspect ratio 5:4 to 21:9)
    ============================================================================ */
 @media (max-width:450px) and (min-aspect-ratio: 5/4) and (max-aspect-ratio: 21/9){
-  .farghar-site-header{padding-inline:calc(var(--farghar-watch-safe,12%))}
   .farghar-site-header{display:none}
   .farghar-promo{display:none}
   .farghar-hero{padding:8px 10% 4px}
@@ -686,6 +769,29 @@ svg{display:block;flex:none}
   .farghar-philosophy p{font-size:9.5px}
   .farghar-philosophy-list{display:none}
   .farghar-clock-mobile-list{padding:0 8%;margin-top:4px}
+
+  /* Market bar: compact horizontal line */
+  .farghar-market-bar{padding:4px 0;position:sticky}
+  .farghar-market-bar-inner{display:flex;flex-wrap:nowrap;gap:4px;padding:0 8%;align-items:center}
+  .farghar-market-left{flex:0 0 auto}
+  .farghar-market-left h2{display:none}
+  .farghar-count-pill{font-size:9px;padding:2px 6px}
+  .farghar-market-right{flex:1 1 auto;display:flex;flex-wrap:nowrap;gap:4px;justify-content:flex-end;min-width:0}
+  .farghar-search-toggle{display:inline-flex;width:26px;height:26px;flex:none}
+  .farghar-search-toggle svg{width:12px;height:12px}
+  .farghar-search{position:absolute;top:calc(100% + 3px);inset-inline:8%;max-width:none;height:30px;padding:0 10px;border-radius:var(--farghar-r-sm);z-index:45;box-shadow:var(--farghar-shadow-md)}
+  .farghar-search.open{display:flex}
+  .farghar-search-ico{display:none}
+  .farghar-search input{font-size:10px;padding-inline:0}
+  .farghar-sort-wrap{flex:0 0 auto;min-width:0}
+  .farghar-sort-trigger{height:26px;font-size:9px;padding:0 6px;gap:3px}
+  .farghar-sort-label{max-width:48px}
+  .farghar-sort-chev svg{width:10px;height:10px}
+  .farghar-filter-toggle{display:inline-flex;height:26px;width:26px;padding:0;justify-content:center;flex:none}
+  .farghar-filter-toggle-label{display:none}
+  .farghar-filter-toggle svg{width:12px;height:12px}
+  .farghar-view-toggle{display:none}
+
   .farghar-layout{padding:6px 8% 20px}
   .farghar-grid{grid-template-columns:repeat(2,1fr);gap:5px}
   .farghar-card-desc,.farghar-tags,.farghar-badge,.farghar-badge-level{display:none}
@@ -722,6 +828,7 @@ svg{display:block;flex:none}
 @media (forced-colors: active){
   .farghar-clock-hour{border:2px solid ButtonText}
   .farghar-btn-primary{border:1px solid ButtonText}
+  .farghar-search-toggle{border:1px solid ButtonText}
 }
 
 /* ============================================================================
@@ -730,4 +837,4 @@ svg{display:block;flex:none}
 .farghar-low-power .farghar-clock-icon{animation:none}
 .farghar-low-power .farghar-card:hover{transform:none;box-shadow:var(--farghar-shadow-sm)}
 .farghar-low-power .farghar-clock-hand{transition-duration:.25s}
-.farghar-dpad-mode .farghar-clock-hour:focus,.farghar-dpad-mode .farghar-btn:focus,.farghar-dpad-mode .farghar-frow:focus,.farghar-dpad-mode .farghar-crow:focus,.farghar-dpad-mode .farghar-clock-mobile-item:focus{outline:3px solid var(--farghar-accent);outline-offset:3px;z-index:10}
+.farghar-dpad-mode .farghar-clock-hour:focus,.farghar-dpad-mode .farghar-btn:focus,.farghar-dpad-mode .farghar-frow:focus,.farghar-dpad-mode .farghar-crow:focus,.farghar-dpad-mode .farghar-clock-mobile-item:focus,.farghar-dpad-mode .farghar-search-toggle:focus{outline:3px solid var(--farghar-accent);outline-offset:3px;z-index:10}
