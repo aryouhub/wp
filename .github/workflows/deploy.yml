@@ -2,8 +2,13 @@
 # Farghar WordPress Academy - GitHub Pages Auto-Deploy
 # Copyright (c) Farghar - All Rights Reserved.
 # ----------------------------------------------------------------------------
-# This workflow publishes the static site to GitHub Pages on every push
-# to the `main` branch. The main application entry point is `index.html`.
+# Publishes the static site to GitHub Pages on every push to `main`.
+# The main application entry point is `index.html`.
+# ----------------------------------------------------------------------------
+# Notes:
+#   - Uses Node 24 compatible action versions.
+#   - Pins Ubuntu runner to 24.04 to avoid future migration surprises.
+#   - Enforces Node 24 for all JavaScript-based actions via env variable.
 # ============================================================================
 
 name: Deploy to GitHub Pages
@@ -22,28 +27,34 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
+
+      - name: List repository root for diagnostics
+        run: ls -la
 
       - name: Verify index.html exists and is not empty
         run: test -s index.html
 
       - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: .
 
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build
     environment:
       name: github-pages
