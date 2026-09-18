@@ -14,7 +14,7 @@
      7.  Sort dropdown
      8.  Search, view toggle, and checkboxes
      9.  Sidebar open/close
-     10. Modal and toast
+     10. Course syllabus modal, course list modal, and toast
      11. Sticky market bar and back-to-top button
      12. Filtering, sorting, and rendering
      13. D-pad navigation for KaiOS and Jio Phone 2
@@ -205,7 +205,6 @@ window.Farghar = (function(){
       btn.innerHTML = '<span class="farghar-clock-num">' + fa(i+1) + '</span>' +
                       '<span class="farghar-clock-dot"></span>';
       /* Enable hover interaction only on devices with a fine pointer. */
-      /* Bugfix: previous code referenced an undefined `FargharDevice.isKiosk`. */
       const supportsHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
       if (supportsHover && !FargharDevice.isKaiOS && !FargharDevice.isJio){
         btn.addEventListener('mouseenter', () => showClockInfo(course, i));
@@ -217,24 +216,6 @@ window.Farghar = (function(){
       frag.appendChild(btn);
     });
     clockEl.appendChild(frag);
-
-    /* Mobile and watch: horizontal list. */
-    const mobileInner = $('fargharClockMobileListInner');
-    if (mobileInner){
-      mobileInner.innerHTML = COURSES.map((c, i) => {
-        const lvl = levelByKey(c.level) || {};
-        return '<button class="farghar-clock-mobile-item" data-course="'+c.id+'">' +
-          '<span class="farghar-clock-mobile-num" style="background:'+(lvl.color||'#888')+'">'+fa(i+1)+'</span>' +
-          '<span class="farghar-clock-mobile-title">'+c.title+'</span>' +
-        '</button>';
-      }).join('');
-      mobileInner.querySelectorAll('.farghar-clock-mobile-item').forEach(btn => {
-        const course = COURSES.find(c => c.id === btn.dataset.course);
-        if (course) btn.addEventListener('click', () => openModal(course));
-      });
-    }
-
-    moveHandTo(0);
   }
 
   function moveHandTo(hourIdx){
@@ -499,10 +480,70 @@ window.Farghar = (function(){
   scrim.addEventListener('click', () => openSidebar(false));
 
   /* ==========================================================================
-     10. MODAL AND TOAST
+     10. COURSE SYLLABUS MODAL, COURSE LIST MODAL, AND TOAST
      ========================================================================== */
   const modal = $('fargharModal');
+  const listModal = $('fargharClockListModal');
+  const listModalInner = $('fargharClockListInner');
+  const listTrigger = $('fargharClockListTrigger');
   let lastFocused = null;
+  let lastListFocused = null;
+
+  /* Build the course list inside the dedicated modal once. */
+  function buildCourseList(){
+    if (!listModalInner) return;
+    listModalInner.innerHTML = COURSES.map((c, i) => {
+      const lvl = levelByKey(c.level) || {};
+      const color = lvl.color || '#888';
+      return '<button type="button" class="farghar-clock-list-item" data-course="'+c.id+'">' +
+        '<span class="farghar-clock-list-num" style="background:'+color+'">'+fa(i+1)+'</span>' +
+        '<span class="farghar-clock-list-title">'+c.title+'</span>' +
+        '<span class="farghar-clock-list-meta">'+fmtDur(c.minutes)+'</span>' +
+      '</button>';
+    }).join('');
+    listModalInner.querySelectorAll('.farghar-clock-list-item').forEach(btn => {
+      const course = COURSES.find(c => c.id === btn.dataset.course);
+      if (!course) return;
+      btn.addEventListener('click', () => {
+        closeCourseList();
+        openModal(course);
+      });
+    });
+  }
+  buildCourseList();
+
+  function openCourseList(){
+    if (!listModal) return;
+    lastListFocused = document.activeElement;
+    listModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+      const closeBtn = listModal.querySelector('.farghar-modal-close');
+      if (closeBtn) closeBtn.focus();
+    }, 80);
+  }
+
+  function closeCourseList(){
+    if (!listModal) return;
+    listModal.classList.remove('open');
+    /* Only restore body scroll if no other modal is open. */
+    if (!modal.classList.contains('open')){
+      document.body.style.overflow = '';
+    }
+    if (lastListFocused && lastListFocused.focus){
+      try { lastListFocused.focus(); } catch(_){}
+    }
+  }
+
+  if (listTrigger){
+    listTrigger.addEventListener('click', openCourseList);
+  }
+  if (listModal){
+    listModal.querySelectorAll('[data-close-list]').forEach(el => {
+      el.addEventListener('click', closeCourseList);
+    });
+  }
+
   function openModal(course){
     lastFocused = document.activeElement;
     const lvl = levelByKey(course.level) || {};
@@ -523,15 +564,24 @@ window.Farghar = (function(){
       if (closeBtn && (FargharDevice.lowPower || !matchMedia('(hover: hover)').matches)) closeBtn.focus();
     }, 80);
   }
+
   function closeModal(){
     modal.classList.remove('open');
-    document.body.style.overflow = '';
+    /* Only restore body scroll if no other modal is open. */
+    if (!listModal.classList.contains('open')){
+      document.body.style.overflow = '';
+    }
     if (lastFocused && lastFocused.focus) try { lastFocused.focus(); } catch(_){}
   }
+
   modal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeModal));
+
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape'){ closeModal(); openSidebar(false); }
-    /* Focus trap inside modal. */
+    if (e.key === 'Escape'){
+      if (listModal.classList.contains('open')){ closeCourseList(); return; }
+      closeModal(); openSidebar(false);
+    }
+    /* Focus trap inside the syllabus modal. */
     if (e.key === 'Tab' && modal.classList.contains('open')){
       const focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
       if (!focusables.length) return;
@@ -539,7 +589,24 @@ window.Farghar = (function(){
       if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
     }
+    /* Focus trap inside the course list modal. */
+    if (e.key === 'Tab' && listModal.classList.contains('open')){
+      const focusables = listModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (!focusables.length) return;
+      const first = focusables[0], last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
   });
+
+  let toastTimer;
+  function showToast(msg){
+    const toast = $('fargharToast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
 
   /* ==========================================================================
      11. STICKY MARKET BAR AND BACK-TO-TOP BUTTON
@@ -648,14 +715,6 @@ window.Farghar = (function(){
     grid.querySelectorAll('.farghar-card-title').forEach(a =>
       a.addEventListener('click', e => e.preventDefault()));
   }
-  let toastTimer;
-  function showToast(msg){
-    const toast = $('fargharToast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
-  }
 
   /* ==========================================================================
      13. D-PAD NAVIGATION FOR KAIOS AND JIO PHONE 2
@@ -713,6 +772,7 @@ window.Farghar = (function(){
       } else if (e.key === 'Backspace'){
         /* Backspace on KaiOS acts as back. */
         if (modal.classList.contains('open')){ e.preventDefault(); closeModal(); }
+        else if (listModal.classList.contains('open')){ e.preventDefault(); closeCourseList(); }
         else if (sidebar.classList.contains('open')){ e.preventDefault(); openSidebar(false); }
         else if (isSearchOpen() && searchUsesToggle()){ e.preventDefault(); setSearchOpen(false); }
       }
@@ -748,7 +808,7 @@ window.Farghar = (function(){
 
   /* Public API. */
   return {
-    version: '4.1.0',
+    version: '4.2.0',
     author: 'Farghar',
     copyright: 'Copyright (c) Farghar - All Rights Reserved.',
     philosophy: 'سرعت حرکت، ارزشمندتر از زمان است.',
