@@ -337,8 +337,53 @@ window.Farghar = (function(){
 
   /* ==========================================================================
      8. SEARCH, VIEW TOGGLE, AND CHECKBOXES
+     --------------------------------------------------------------------------
+     The search field is hidden by default on mobile and watch devices.
+     It is toggled by the magnifier button in the market bar and appears
+     as a dropdown panel anchored to the market bar.
      ========================================================================== */
   const searchInput = $('fargharSearchInput'), searchWrap = $('fargharSearchWrap');
+  const searchToggle = $('fargharSearchToggle');
+  const isSearchOpen = () => searchWrap.classList.contains('open');
+
+  /* Check if the current viewport requires the toggle-based search UI. */
+  function searchUsesToggle(){
+    return window.matchMedia('(max-width: 560px)').matches;
+  }
+
+  function setSearchOpen(open){
+    /* On desktop the search is always visible; ignore toggle. */
+    if (!searchUsesToggle()){
+      searchWrap.classList.add('open');
+      if (searchToggle){
+        searchToggle.setAttribute('aria-expanded', 'true');
+      }
+      return;
+    }
+    searchWrap.classList.toggle('open', open);
+    if (searchToggle){
+      searchToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    if (open){
+      /* Focus the input once the panel becomes visible. */
+      setTimeout(() => { try { searchInput.focus(); } catch(_){} }, 60);
+    }
+  }
+
+  /* Search toggle button click. */
+  if (searchToggle){
+    searchToggle.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!searchUsesToggle()){
+        /* On desktop, focus the input directly. */
+        searchInput.focus();
+        return;
+      }
+      setSearchOpen(!isSearchOpen());
+    });
+  }
+
+  /* Debounced search input. */
   let debounce;
   searchInput.addEventListener('input', e => {
     const v = e.target.value;
@@ -346,11 +391,51 @@ window.Farghar = (function(){
     clearTimeout(debounce);
     debounce = setTimeout(() => { state.q = v.trim().toLowerCase(); render(); }, 150);
   });
-  $('fargharClearSearch').addEventListener('click', () => {
+
+  /* Clear button inside the search field. */
+  $('fargharClearSearch').addEventListener('click', e => {
+    e.stopPropagation();
     searchInput.value = ''; searchWrap.classList.remove('has-value');
     state.q = ''; render(); searchInput.focus();
   });
 
+  /* Close the search dropdown when clicking outside of it. */
+  document.addEventListener('click', e => {
+    if (!searchUsesToggle()) return;
+    if (!isSearchOpen()) return;
+    if (searchWrap.contains(e.target)) return;
+    if (searchToggle && searchToggle.contains(e.target)) return;
+    setSearchOpen(false);
+  });
+
+  /* Close the search dropdown with the Escape key. */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && isSearchOpen() && searchUsesToggle()){
+      setSearchOpen(false);
+      if (searchToggle) searchToggle.focus();
+    }
+  });
+
+  /* Initialize the search visibility based on viewport. */
+  function syncSearchVisibility(){
+    if (searchUsesToggle()){
+      /* On mobile the field starts closed unless a query is active. */
+      if (!state.q){
+        searchWrap.classList.remove('open');
+        if (searchToggle) searchToggle.setAttribute('aria-expanded', 'false');
+      } else {
+        searchWrap.classList.add('open');
+        if (searchToggle) searchToggle.setAttribute('aria-expanded', 'true');
+      }
+    } else {
+      /* On desktop the field is always visible. */
+      searchWrap.classList.add('open');
+      if (searchToggle) searchToggle.setAttribute('aria-expanded', 'true');
+    }
+  }
+  syncSearchVisibility();
+
+  /* View toggle. */
   function setView(v){
     state.view = v;
     $('fargharViewGrid').classList.toggle('on', v === 'grid');
@@ -362,6 +447,7 @@ window.Farghar = (function(){
   $('fargharViewGrid').addEventListener('click', () => setView('grid'));
   $('fargharViewList').addEventListener('click', () => setView('list'));
 
+  /* Access checkboxes (free and sale). */
   document.querySelectorAll('.farghar-crow').forEach(row => {
     row.addEventListener('click', () => {
       row.classList.toggle('on');
@@ -372,6 +458,7 @@ window.Farghar = (function(){
     });
   });
 
+  /* Optional duration slider (may not exist in the current markup). */
   const durRange = $('fargharDurRange');
   if (durRange) durRange.addEventListener('input', e => {
     state.maxDur = +e.target.value;
@@ -380,6 +467,7 @@ window.Farghar = (function(){
     render();
   });
 
+  /* Reset all filters and search. */
   function resetAll(){
     state.levels.clear(); state.topics.clear();
     state.freeOnly = false; state.saleOnly = false;
@@ -387,6 +475,7 @@ window.Farghar = (function(){
     searchInput.value = ''; searchWrap.classList.remove('has-value');
     if (durRange){ durRange.value = 100; $('fargharDurLabel').textContent = 'همه'; }
     document.querySelectorAll('.farghar-frow.on, .farghar-crow.on').forEach(b => b.classList.remove('on'));
+    syncSearchVisibility();
     render();
   }
   $('fargharResetAll').addEventListener('click', resetAll);
@@ -625,6 +714,7 @@ window.Farghar = (function(){
         /* Backspace on KaiOS acts as back. */
         if (modal.classList.contains('open')){ e.preventDefault(); closeModal(); }
         else if (sidebar.classList.contains('open')){ e.preventDefault(); openSidebar(false); }
+        else if (isSearchOpen() && searchUsesToggle()){ e.preventDefault(); setSearchOpen(false); }
       }
     });
   })();
@@ -644,6 +734,8 @@ window.Farghar = (function(){
       document.body.classList.toggle('farghar-device-feature', isFeature);
       document.documentElement.setAttribute('data-farghar-device',
         isWatch ? 'watch' : isFeature ? 'feature' : FargharDevice.label);
+      /* Sync the search visibility when the viewport crosses the breakpoint. */
+      syncSearchVisibility();
     }, 250);
   });
 
@@ -656,7 +748,7 @@ window.Farghar = (function(){
 
   /* Public API. */
   return {
-    version: '4.0.0',
+    version: '4.1.0',
     author: 'Farghar',
     copyright: 'Copyright (c) Farghar - All Rights Reserved.',
     philosophy: 'سرعت حرکت، ارزشمندتر از زمان است.',
