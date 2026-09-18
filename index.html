@@ -124,9 +124,12 @@
   </div>
 </section>
 
-<!-- CLOCK MOBILE LIST -->
-<div class="farghar-clock-mobile-list" id="fargharClockMobileList">
-  <div class="farghar-clock-mobile-list-inner" id="fargharClockMobileListInner"></div>
+<!-- CLOCK LIST BUTTON (visible on mobile, KaiOS, watch) -->
+<div class="farghar-clock-list-trigger-wrap">
+  <button type="button" class="farghar-clock-list-trigger" id="fargharClockListTrigger" aria-haspopup="dialog" aria-controls="fargharClockListModal">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <span>مشاهده لیست دوره‌ها</span>
+  </button>
 </div>
 
 <!-- MARKET BAR -->
@@ -228,7 +231,7 @@
   </section>
 </div>
 
-<!-- MODAL -->
+<!-- COURSE SYLLABUS MODAL -->
 <div class="farghar-modal" id="fargharModal" role="dialog" aria-modal="true" aria-labelledby="fargharModalTitle">
   <div class="farghar-modal-bg" data-close></div>
   <div class="farghar-modal-card">
@@ -249,6 +252,28 @@
     <div class="farghar-modal-foot">
       <button class="farghar-btn farghar-btn-ghost" data-close>بستن</button>
       <button class="farghar-btn farghar-btn-primary" id="fargharModalStart">شروع</button>
+    </div>
+  </div>
+</div>
+
+<!-- COURSE LIST MODAL (mobile, KaiOS, watch) -->
+<div class="farghar-modal farghar-modal-list" id="fargharClockListModal" role="dialog" aria-modal="true" aria-labelledby="fargharClockListModalTitle">
+  <div class="farghar-modal-bg" data-close-list></div>
+  <div class="farghar-modal-card">
+    <div class="farghar-modal-head">
+      <span class="farghar-pico farghar-pico-accent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      </span>
+      <div class="farghar-modal-title">
+        <h3 id="fargharClockListModalTitle">لیست دوره‌ها</h3>
+        <p>۱۲ ایستگاه مسیر یادگیری وردپرس</p>
+      </div>
+      <button class="farghar-modal-close" data-close-list aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="farghar-modal-body farghar-modal-body-list">
+      <div class="farghar-clock-list" id="fargharClockListInner"></div>
     </div>
   </div>
 </div>
