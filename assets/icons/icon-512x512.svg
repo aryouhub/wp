@@ -1,0 +1,32 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="256" fill="#3858e9"/>
+  
+  <!-- Clock Face -->
+  <circle cx="256" cy="256" r="180" fill="#fafafa" stroke="#e9e9ec" stroke-width="4"/>
+  <circle cx="256" cy="256" r="160" fill="none" stroke="#3858e9" stroke-width="3" stroke-dasharray="8 8"/>
+  
+  <!-- Hour Markers -->
+  <g stroke="#171717" stroke-width="4" stroke-linecap="round">
+    <line x1="256" y1="96" x2="256" y2="116"/>
+    <line x1="256" y1="396" x2="256" y2="416"/>
+    <line x1="416" y1="256" x2="396" y2="256"/>
+    <line x1="116" y1="256" x2="96" y2="256"/>
+    <line x1="340" y1="172" x2="326" y2="186"/>
+    <line x1="340" y1="340" x2="326" y2="326"/>
+    <line x1="172" y1="340" x2="186" y2="326"/>
+    <line x1="172" y1="172" x2="186" y2="186"/>
+    <line x1="380" y1="220" x2="365" y2="225"/>
+    <line x1="380" y1="292" x2="365" y2="287"/>
+    <line x1="292" y1="380" x2="287" y2="365"/>
+    <line x1="220" y1="380" x2="225" y2="365"/>
+  </g>
+  
+  <!-- Clock Hands -->
+  <line x1="256" y1="256" x2="256" y2="156" stroke="#3858e9" stroke-width="8" stroke-linecap="round"/>
+  <line x1="256" y1="256" x2="320" y2="256" stroke="#171717" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="256" cy="256" r="16" fill="#3858e9"/>
+  
+  <!-- WordPress Logo (simplified W) -->
+  <path d="M256 340 L220 420 L256 380 L292 420 Z" fill="#3858e9" opacity="0.3"/>
+</svg>

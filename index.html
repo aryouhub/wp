@@ -26,12 +26,19 @@
 <meta name="copyright" content="Farghar">
 <meta name="theme-color" content="#3858e9">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="فارغار آکادمی">
+<meta name="application-name" content="وردپرس آکادمی فارغار">
 <title>وردپرس آکادمی | ۱۲ ساعت تا تسلط بر وردپرس</title>
 <meta name="description" content="مسیر ۰ تا ۱۰۰ وردپرس در ۱۲ ایستگاه. طراحی و معماری: Farghar">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
 </head>
 <body>
 
@@ -324,5 +331,50 @@
 <div class="farghar-toast" id="fargharToast"></div>
 
 <script src="assets/js/app.js" defer></script>
+<script src="assets/js/native-feel.js" defer></script>
+<script>
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/assets/js/sw.js')
+      .then((registration) => {
+        console.log('[PWA] ServiceWorker registered:', registration.scope);
+        
+        // Check for updates
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New content available
+              if (confirm('نسخه جدیدی از برنامه موجود است. آیا می‌خواهید بارگذاری مجدد شود؟')) {
+                window.location.reload();
+              }
+            }
+          });
+        });
+      })
+      .catch((error) => {
+        console.log('[PWA] ServiceWorker registration failed:', error);
+      });
+    
+    // Handle online/offline status
+    const updateOnlineStatus = () => {
+      const toast = document.getElementById('fargharToast');
+      if (navigator.onLine) {
+        toast.textContent = 'اتصال اینترنت برقرار شد';
+        toast.style.background = '#0f8a44';
+      } else {
+        toast.textContent = 'شما آفلاین هستید - نسخه کش شده نمایش داده می‌شود';
+        toast.style.background = '#a15c00';
+      }
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 3000);
+    };
+    
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+  });
+}
+</script>
 </body>
 </html>

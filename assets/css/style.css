@@ -886,3 +886,87 @@ svg{display:block;flex:none}
 .farghar-low-power .farghar-card:hover{transform:none;box-shadow:var(--farghar-shadow-sm)}
 .farghar-low-power .farghar-clock-hand{transition-duration:.25s}
 .farghar-dpad-mode .farghar-clock-hour:focus,.farghar-dpad-mode .farghar-btn:focus,.farghar-dpad-mode .farghar-frow:focus,.farghar-dpad-mode .farghar-crow:focus,.farghar-dpad-mode .farghar-clock-list-item:focus,.farghar-dpad-mode .farghar-clock-list-trigger:focus,.farghar-dpad-mode .farghar-search-toggle:focus{outline:3px solid var(--farghar-accent);outline-offset:3px;z-index:10}
+
+/* ============================================================================
+   28. NATIVE APP FEEL - GESTURES, ANIMATIONS & TOUCH OPTIMIZATIONS
+   ============================================================================ */
+/* Touch action optimizations for native feel */
+.farghar-clock,.farghar-grid,.farghar-modal-card{touch-action:manipulation}
+.farghar-site-header,.farghar-market-bar{-webkit-user-select:none;user-select:none}
+
+/* Smooth scroll with momentum for iOS */
+html{-webkit-overflow-scrolling:touch}
+
+/* Native-like button press feedback */
+.farghar-btn:active,.farghar-clock-hour:active,.farghar-clock-list-item:active,.farghar-nav a:active{transform:scale(.97);opacity:.85}
+
+/* Pull-to-refresh indicator area */
+.farghar-pull-indicator{position:fixed;top:0;left:0;right:0;height:0;background:var(--farghar-accent);color:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:height .3s ease;z-index:100;font-size:13px;font-weight:600}
+.farghar-pull-indicator.visible{height:44px}
+.farghar-pull-indicator svg{width:18px;height:18px;margin-left:8px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Gesture areas for swipe navigation */
+.farghar-gesture-area{position:fixed;inset:0;pointer-events:none;z-index:9999}
+
+/* Bottom sheet animation for modals (iOS style) */
+.farghar-modal.farghar-modal-sheet{display:flex;align-items:flex-end}
+.farghar-modal.farghar-modal-sheet .farghar-modal-card{border-radius:20px 20px 0 0;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,.72,0,1);margin:0;max-width:100%;max-height:85vh}
+.farghar-modal.farghar-modal-sheet[aria-hidden="false"] .farghar-modal-card{transform:translateY(0)}
+.farghar-modal.farghar-modal-sheet::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .3s ease}
+.farghar-modal.farghar-modal-sheet[aria-hidden="false"]::before{opacity:1}
+
+/* Haptic feedback hint for supported devices */
+@supports (-webkit-touch-callout: none){
+  .farghar-btn:active,.farghar-clock-hour:active{transition:transform .08s ease}
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)){
+  body{padding-left:max(0px, env(safe-area-inset-left));padding-right:max(0px, env(safe-area-inset-right))}
+  .farghar-site-header{padding-left:max(0px, env(safe-area-inset-left));padding-right:max(0px, env(safe-area-inset-right))}
+  .farghar-market-bar{padding-left:max(0px, env(safe-area-inset-left));padding-right:max(0px, env(safe-area-inset-right))}
+  .farghar-hero{padding-left:max(0px, env(safe-area-inset-left));padding-right:max(0px, env(safe-area-inset-right))}
+}
+
+/* Hide scrollbar but keep functionality (native app feel) */
+.farghar-modal-body-list::-webkit-scrollbar{width:0;background:transparent}
+.farghar-modal-body-list{-ms-overflow-style:none;scrollbar-width:none}
+
+/* Install prompt banner */
+.farghar-install-prompt{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--farghar-surface);border:1px solid var(--farghar-border-2);border-radius:16px;padding:16px 20px;box-shadow:var(--farghar-shadow-lg);display:flex;align-items:center;gap:12px;z-index:9999;transition:transform .4s cubic-bezier(.32,.72,0,1),opacity .3s ease;opacity:0;max-width:calc(100% - 40px)}
+.farghar-install-prompt.visible{transform:translateX(-50%) translateY(0);opacity:1}
+.farghar-install-prompt-icon{width:32px;height:32px;border-radius:8px;background:var(--farghar-accent);display:flex;align-items:center;justify-content:center;color:#fff}
+.farghar-install-prompt-icon svg{width:20px;height:20px}
+.farghar-install-prompt-text{flex:1;font-size:13px;font-weight:600;color:var(--farghar-text)}
+.farghar-install-prompt-actions{display:flex;gap:8px}
+.farghar-install-prompt-dismiss{padding:6px 12px;font-size:12px;color:var(--farghar-text-2)}
+.farghar-install-prompt-install{padding:6px 14px;font-size:12px;font-weight:600;background:var(--farghar-accent);color:#fff;border-radius:8px}
+
+/* Dark mode support (auto) */
+@media (prefers-color-scheme: dark){
+  :root{
+    --farghar-bg:#0a0a0a;
+    --farghar-surface:#171717;
+    --farghar-surface-2:#262626;
+    --farghar-border:#2a2a2e;
+    --farghar-border-2:#3a3a3f;
+    --farghar-border-3:#4a4a4f;
+    --farghar-text:#fafafa;
+    --farghar-text-2:#a1a1aa;
+    --farghar-text-3:#71717a;
+    --farghar-text-4:#52525b;
+    --farghar-accent-soft:#1e293b;
+    --farghar-green-bg:#064e3b;
+    --farghar-orange-bg:#7c2d12;
+    --farghar-shadow-sm:0 1px 2px rgba(0,0,0,.3);
+    --farghar-shadow-md:0 8px 24px rgba(0,0,0,.4),0 1px 3px rgba(0,0,0,.2);
+    --farghar-shadow-lg:0 18px 44px rgba(0,0,0,.6);
+  }
+  .farghar-site-header{background:rgba(10,10,10,.88)}
+  .farghar-market-bar{background:rgba(10,10,10,.95)}
+  .farghar-promo{background:#1e293b;color:#bfdbfe}
+  .farghar-clock{background:var(--farghar-surface);border-color:var(--farghar-border)}
+  .farghar-clock-center{background:var(--farghar-surface);box-shadow:0 4px 14px rgba(0,0,0,.3),0 0 0 1px var(--farghar-border)}
+  .farghar-clock-hour{background:var(--farghar-surface);border-color:var(--farghar-border-2)}
+}
