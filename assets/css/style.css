@@ -915,6 +915,9 @@ html{-webkit-overflow-scrolling:touch}
 .farghar-modal.farghar-modal-sheet[aria-hidden="false"] .farghar-modal-card{transform:translateY(0)}
 .farghar-modal.farghar-modal-sheet::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .3s ease}
 .farghar-modal.farghar-modal-sheet[aria-hidden="false"]::before{opacity:1}
+/* Ensure modals work on all devices - fallback for non-sheet mode */
+.farghar-modal:not(.farghar-modal-sheet){display:none}
+.farghar-modal:not(.farghar-modal-sheet).open{display:flex}
 
 /* Haptic feedback hint for supported devices */
 @supports (-webkit-touch-callout: none){

@@ -725,6 +725,7 @@ window.Farghar = (function(){
   function openCourseList(){
     if (!listModal) return;
     lastListFocused = document.activeElement;
+    listModal.setAttribute('aria-hidden', 'false');
     listModal.classList.add('open');
     document.body.style.overflow = 'hidden';
     setTimeout(() => {
@@ -735,6 +736,7 @@ window.Farghar = (function(){
 
   function closeCourseList(){
     if (!listModal) return;
+    listModal.setAttribute('aria-hidden', 'true');
     listModal.classList.remove('open');
     /* Only restore body scroll if no other modal is open. */
     if (!modal.classList.contains('open')){
@@ -803,6 +805,9 @@ window.Farghar = (function(){
         showToast('دوره «'+course.title+'» به‌زودی باز می‌شود'); 
       }
     };
+    
+    // Set aria-hidden for bottom sheet animation
+    modal.setAttribute('aria-hidden', 'false');
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
     /* Focus the close button for D-pad navigation. */
@@ -813,6 +818,8 @@ window.Farghar = (function(){
   }
 
   function closeModal(){
+    // Set aria-hidden for bottom sheet animation
+    modal.setAttribute('aria-hidden', 'true');
     modal.classList.remove('open');
     /* Only restore body scroll if no other modal is open. */
     if (!listModal.classList.contains('open')){

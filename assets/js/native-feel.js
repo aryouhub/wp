@@ -194,10 +194,16 @@
     const modal = document.getElementById(modalId);
     if (!modal) return;
     
+    // Apply bottom sheet style on mobile devices
     if (window.innerWidth <= 560) {
       modal.classList.add('farghar-modal-sheet');
     } else {
       modal.classList.remove('farghar-modal-sheet');
+    }
+    
+    // Set initial aria-hidden state
+    if (!modal.classList.contains('open')) {
+      modal.setAttribute('aria-hidden', 'true');
     }
   }
   
